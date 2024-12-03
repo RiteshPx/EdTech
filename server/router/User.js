@@ -13,11 +13,7 @@ const { resetPasswordToken,
 } = require('../controller/ResetPassword');
 
 
-const { auth,
-    isAdmin,
-    isInstructor,
-    isStudent
-} = require('../middlewares/auth');
+const { auth} = require('../middlewares/auth');
 
 
 // -----------------authenticate router -----------------

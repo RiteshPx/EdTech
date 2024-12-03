@@ -17,7 +17,7 @@ exports.sendOTP = async (req, res) => {
         //if already exist
         if (checkUserPresent) {
             return (
-                res.send(401).json({
+                res.status(401).json({
                     success: false,
                     message: "user already exist"
                 })
