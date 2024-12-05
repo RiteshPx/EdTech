@@ -4,15 +4,11 @@ const cookieParser = require('cookie-parser');
 const cors = require('cors');                                       //..for entertain frontend
 const fileUpload = require('express-fileupload');
 
-// const dotenv = require("dotenv");
-
-var homeRouter = require('./router/Home');
 var courseRouter = require('./router/Course');
 var profileRouter = require('./router/Profile')
 var userRouter = require('./router/User')
 var paymentRouter = require('./router/Payment')
-
-
+  
 // Config imports
 const connectDB = require("./config/mongoose");
 const connectCloudinary = require('./config/cloudinary');

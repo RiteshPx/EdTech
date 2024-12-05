@@ -13,6 +13,14 @@ exports.sendOTP = async (req, res) => {
     try {
         const { email } = req.body;
 
+        if (!email) {   
+            return res.status(400).json({
+                message: "not get email",
+                success: false,
+            })
+        }
+        console.log("your email is " ,email)
+
         const checkUserPresent = await User.findOne({ email });
         //if already exist
         if (checkUserPresent) {
@@ -56,6 +64,8 @@ exports.sendOTP = async (req, res) => {
         res.status(200).json({
             success: true,
             message: "otp successfully send",
+            otpBody
+
         })
     }
     catch (e) {
@@ -78,9 +88,10 @@ exports.signUp = async (req, res) => {
             confirmPassword,
             accountType,
             contactNumber,
-            otp
+            otp,
         } = req.body;
 
+        console.log("enter in signup")
         // data validate
         if (!firstName || !lastName || !password || !confirmPassword || !otp) {
             return (
@@ -113,11 +124,12 @@ exports.signUp = async (req, res) => {
         }
 
         // find most recent otp in db
-        console.log(otp);
-        const recentotp = await OTP.find({ email}).sort({ createdAt: -1 }).limit(1);
+        console.log("your otp is ", otp);
+        const recentotp = await OTP.find({ email: email }).sort({ createdAt: -1 }).limit(1);
+
         console.log("recent otp is ", recentotp[0].otp);
         //validate otp
-        if (recentotp[0].otp != otp) {
+        if (recentotp[0].otp !== otp) {
             return (
                 res.status(400).json({
                     message: "otp not match ",
@@ -126,7 +138,6 @@ exports.signUp = async (req, res) => {
             )
         }
 
-
         //additionDetails of user
         const profileDetails = await profile.create({
             gender: null,
@@ -134,6 +145,7 @@ exports.signUp = async (req, res) => {
             about: null,
             contactNumber,
         })
+
         //hash password and store in db
         await bcrypt.hash(password, 10, async function (err, hash) {
             // Store hash in your password DB.
@@ -145,20 +157,19 @@ exports.signUp = async (req, res) => {
                 password: hash,
                 additionDetails: profileDetails._id,
                 image: `https://api.dicebear.com/5.x/initials/svg?seed=${firstName} ${lastName}`,
-
             })
-            
-       
-        return res.status(200).json({
-            message: "User register successfully",
-            success: true,
-            userData,
-        })
-    });
+
+
+            return res.status(200).json({
+                message: "User register successfully",
+                success: true,
+                userData,
+            })
+        });
     }
     catch (e) {
         res.status(500).json({
-            message: "User doesnot registered,try again",
+            message: e.message,
             success: false
         })
     }
@@ -259,7 +270,7 @@ exports.changePassword = async (req, res) => {
         const token = user.token || req.cookies.token;
 
         //password hashed
-        const hashedPasswor = await bcrypt.hash(password, 10);
+        const hashedPassword = await bcrypt.hash(password, 10);
 
         //update password in db
         const user = User.findOneAndUpdate({ email: token.email },
