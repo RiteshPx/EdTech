@@ -3,7 +3,7 @@ import { login } from '../api/userApi';
 import { useNavigate } from 'react-router-dom';
 
 
-const LoginForm = () => {
+const LoginForm = ({setIsLogin}) => {
   const [formData, setFormData] = useState({
     email: '',
     password: '',
@@ -12,10 +12,12 @@ const LoginForm = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -24,6 +26,7 @@ const LoginForm = () => {
       const response = await login(formData);
       console.log('Login Successful:', response.data);
       alert('Login Successful!');
+      setIsLogin(true);
       // Handle successful login (e.g., navigate, save token, etc.)
 
       if (response.data.user.accountType === "Instructor") {

@@ -46,8 +46,8 @@ const SignupForm = () => {
              (<OtpPage formData={formData} setFormData={setFormData} handleChange={handleChange} />) 
              : (
                 <div className="min-h-screen flex items-center justify-center bg-gray-100 ">
-                    <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
-                        <h2 className="text-2xl font-bold mb-6 text-center text-gray-800">Sign Up</h2>
+                    <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
+                        <h2 className="text-2xl font-bold mb-4 text-center text-gray-800">Sign Up</h2>
                         <form onSubmit={handleSubmitDetails} className="space-y-4">
                             {/* Email */}
                             <div>
