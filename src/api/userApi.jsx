@@ -13,6 +13,6 @@ export const sendOtp = async (email) => {
 }
 
 //login
-export const login = async (userDetail) => {
+export const userlogin = async (userDetail) => {
     return API.post('/login', userDetail);
 }
