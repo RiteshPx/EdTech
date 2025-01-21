@@ -13,9 +13,9 @@ const { capturePayment,
 
 
 // Route to initiate a payment
-// router.post('./capturePayment',auth,isStudent,capturePayment);
+router.post('/capturePayment',auth,isStudent,capturePayment);
 // Route to verify a payment
-// router.post('/verifySignature',verifySignature);
+router.post('/verifySignature',verifySignature);
 
 
 module.exports = router;

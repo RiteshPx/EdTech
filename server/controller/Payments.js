@@ -1,29 +1,30 @@
-const razorpayInstance = require('../config/razorpay');
+const { default: mongoose } = require('mongoose');
+const {razorpayInstance}= require('../config/razorpay');
 const Course = require('../models/Course');
 const User = require('../models/User');
 const mailSender = require('../utils/mailSender');
 require('dotenv').config();
-
+const crypto = require('crypto');
 
 //capture the payment and initiate the razorpay order
 exports.capturePayment = async (req, res) => {
     try {
         //fetch 
         const { courseID } = req.body;
-        const userID = req.user.id;
+        console.log("Received courseID:", courseID);
 
-        //validation
+        // Validate courseID
         if (!courseID) {
             return res.status(400).json({
                 success: false,
-                message: 'provide valid course id',
-            })
+                message: "Invalid course ID format",
+            });
         }
-
+        const userID = req.user.id;
         //valid course id
         let course;
         try {
-            course = await Course.findById({ courseID });;
+            course = await Course.findById(courseID);;
             if (!course) {
                 return res.status(400).json({
                     success: false,
@@ -61,8 +62,8 @@ exports.capturePayment = async (req, res) => {
         }
         try {
             //initiate the payment using razorpay
-            const paymentResponse = razorpayInstance.orders.create(options);
-            console.log(paymentResponse);
+            const paymentResponse =await razorpayInstance.orders.create(options);
+            console.log("payment response",paymentResponse);
 
             //return res
             res.status(200).json({
@@ -72,7 +73,7 @@ exports.capturePayment = async (req, res) => {
                 courseID,
                 thumbnail: course.thumbnails,
                 courseDescription: course.courseDescription,
-                orderId: paymentResponse.id,
+                orderId: paymentResponse.id,            //order id of payment
                 currency: paymentResponse.currency,
                 amount: paymentResponse.amount,
             })
@@ -86,22 +87,30 @@ exports.capturePayment = async (req, res) => {
 
         }
 
-
     }
     catch (e) {
-
+        res.status(400).json({
+            success: false,
+            message: e.message,
+        })
     }
 }
 
 // verify signature of razorpay and server 
-const verifySignature = async (req, res) => {
-    try{
-        const secret = process.env.RAZORPAY_SECRET;
+exports.verifySignature = async (req, res) => {
+    try {
+  console.log(req.body)
 
+        const secret = process.env.RAZORPAY_SECRET;
         const shasum = crypto.createHmac("sha256", secret);
         shasum.update(JSON.stringify(req.body));
         const digest = shasum.digest("hex");
-    
+
+console.log("Generated digest:", digest);
+console.log("Received signature:", req.headers["x-razorpay-signature"]);
+console.log("Received signature:", req.headers['x-razorpay-signature']);
+
+
         if (digest === req.headers["x-razorpay-signature"]) {
             console.log('payment is sucessfully');
         }
@@ -113,7 +122,7 @@ const verifySignature = async (req, res) => {
         }
         //fetch data 
         const { courseId, userId } = req.body.payload.payment.entity.notes;   //beacuse this send from razorpay ,not any user so we can't eject from user(cookie)
-    
+
         //update courseDetail with enroll student
         const enrollCourse = await Course.findByIdAndUpdate({ courseId },
             {
@@ -136,7 +145,7 @@ const verifySignature = async (req, res) => {
         if (!enrollCourse) {
             return res.status(400).json({ message: 'User not found' })
         }
-    
+
         //send mail to congrulation of onboard
         mailSender(
             enrollStudent.email,
@@ -148,7 +157,7 @@ const verifySignature = async (req, res) => {
             message: "successfully enrolled "
         })
     }
-    catch(e){
+    catch (e) {
         return res.status(400).json({
             success: false,
             message: "enable to  enrolled "

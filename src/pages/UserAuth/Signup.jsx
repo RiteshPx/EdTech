@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { sendOtp } from '../../api/userApi';
 import axios from 'axios';
 import { OtpPage } from '../../components/core/OTP/OtpPage';
+import { toast } from 'react-toastify';
 const SignupForm = () => {
     const [formData, setFormData] = useState({
         email: '',
@@ -24,7 +25,8 @@ const SignupForm = () => {
     const handleSubmitDetails = async (e) => {
         e.preventDefault();
         if (formData.password !== formData.confirmPassword) {
-            //error shown on ascreen
+           
+            return  toast.warn("password and confirm password doesn't match ");
         }
         const payload = {
             email: formData.email,
@@ -183,11 +185,8 @@ const SignupForm = () => {
                                 </div>
                             </form>
                         </div>
-                                          </div>
+                      </div>
                 )
-
-
-
             }
         </div>
     );

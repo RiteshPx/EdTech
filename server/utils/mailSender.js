@@ -1,7 +1,8 @@
 const nodemailer = require('nodemailer');
+const emailTemplate = require('./emailTemplate');
 require('dotenv').config();
 
-const mailsender= async(email,title,body)=>{
+const mailsender= async(email,title,otp)=>{
     try{
         let transporter = nodemailer.createTransport({
             host :process.env.MAIL_HOST,
@@ -15,7 +16,7 @@ const mailsender= async(email,title,body)=>{
             from: "testing the first project -Ritesh Parmar",
             to:`${email}`,
             subject:`${title}`,
-            html: `${body}`,
+            html: emailTemplate(otp),
         })
         console.log(info);
         return info;

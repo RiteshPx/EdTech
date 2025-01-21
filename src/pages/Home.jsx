@@ -1,5 +1,5 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useContext } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { FaArrowRightLong } from "react-icons/fa6";
 import { Highlight } from '../components/core/homePage/Highlight';
 import { CTAButton } from "../components/core/homePage/Button";
@@ -8,8 +8,14 @@ import { CodeBlock } from '../components/core/homePage/CodeBlock';
 import imagecode from '../assets/images/codeImage.jpeg';
 import { ShowCourses } from '../components/core/homePage/ShowCourses';
 import home from '../assets/images/home.avif';
+import AuthContext from '../Context/AuthContext';
 
 export const Home = () => {
+    const { isAuthenticated, user } = useContext(AuthContext);
+    const navigate = useNavigate();
+    if (isAuthenticated) {
+        navigate(`/${user.accountType}HomePage`)
+    }
     return (
 
         <div className=' bg-primay'>
@@ -19,7 +25,6 @@ export const Home = () => {
                 <div className="flex flex-col md:flex-row items-center justify-center w-full min-h-2.5 m-20  p-6 gap-8">
                     {/* Left Content */}
                     <div className="flex flex-col justify-center items-center  p-8 rounded-lg  w-full md:w-1/2">
-                        
 
                         {/* Heading */}
                         <div className="text-3xl text-center font-semibold mt-6 leading-tight">
@@ -41,8 +46,8 @@ export const Home = () => {
                             <CTAButton linkto={"/login"}>Book a Demo</CTAButton>
                         </div>
 
-                    {/* Become an Instructor Button */}
-                    <Link to={"/signup"}>
+                        {/* Become an Instructor Button */}
+                        <Link to={"/signup"}>
                             <div className="group mt-8 mx-auto  bg-secondary text-textColor font-bold rounded-full transition-transform transform hover:scale-95">
                                 <div className="flex justify-center items-center gap-2 group-hover:bg-white py-2 px-4 text-center">
                                     <p>Become an Instructor</p>
@@ -50,7 +55,7 @@ export const Home = () => {
                                 </div>
                             </div>
                         </Link>
-                        </div>
+                    </div>
 
                     {/* Right Content */}
                     <div className="flex justify-center items-center  p-6 rounded-lg  w-full md:w-1/2">

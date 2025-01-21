@@ -5,40 +5,44 @@ require('dotenv').config();
 //auth
 exports.auth = async (req, res, next) => {
     try {
-        //fetch token
-
-        const token = req.header("Authorization").replace("Bearer ", "").trim() ||  user.token || req.cookies.token  ;
+        // Fetch token from Authorization header, cookies, or other sources
+        let token =req.cookies.token || req.header("Authorization")?.replace("Bearer ", "").trim();
         
-        //validate token
+        // If token is not found in Authorization header, try from cookies
         if (!token) {
-           return res.status(400).json({
+            token = req.cookies.token;
+        }
+        console.log("token is ",token)
+        // If no token is present, send an error response
+        if (!token) {
+            return res.status(400).json({
                 success: false,
-                message: "missing Token",
-            })
+                message: "Missing Token",
+            });
         }
-        console.log(token)
 
+        console.log("Token fetched:", token);
+
+        // Validate token
         try {
-            const decode = jwt.verify(token, process.env.JWT_SECRET);
-            console.log(decode);
-            req.user = decode;
-            next(); //call next middleware
-
-        }
-        catch (e) {
-            res.status(401).json({
+            const decoded = jwt.verify(token, process.env.JWT_SECRET);  // Decode the token using JWT_SECRET
+            console.log("Decoded token:", decoded);
+            req.user = decoded;  // Attach user data to request
+            next();  // Proceed to the next middleware or route handler
+        } catch (e) {
+            return res.status(401).json({
                 success: false,
                 message: "Token is invalid",
-            })
+            });
         }
-    }
-    catch (e) {
-        res.status(400).json({
+
+    } catch (e) {
+        return res.status(400).json({
             success: false,
-            message: "something went wrong while verify the token "
-        })
+            message: "Something went wrong while verifying the token",
+        });
     }
-}
+};
 
 
 //ISstudent

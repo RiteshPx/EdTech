@@ -13,13 +13,13 @@ exports.sendOTP = async (req, res) => {
     try {
         const { email } = req.body;
 
-        if (!email) {   
+        if (!email) {
             return res.status(400).json({
                 message: "not get email",
                 success: false,
             })
         }
-        console.log("your email is " ,email)
+        console.log("your email is ", email)
 
         const checkUserPresent = await User.findOne({ email });
         //if already exist
@@ -40,24 +40,23 @@ exports.sendOTP = async (req, res) => {
         console.log("otp is ", otp);
 
         //checkk its unique otp or not 
-        const result = await OTP.findOne({ otp });
+        // const result = await OTP.findOne({ otp });
 
         //recreate otp if previous is not unique
-        while (result) {
-            otp = otpGenerator.generate(6, {
-                upperCaseAlphabets: false,
-                lowerCaseAlphabets: false,
-                specialChars: false
-            })
-            result = OTP.findOne({ otp });
-        }
+        // while (result) {
+        //     otp = otpGenerator.generate(6, {
+        //         upperCaseAlphabets: false,
+        //         lowerCaseAlphabets: false,
+        //         specialChars: false
+        //     })
+        //     result = OTP.findOne({ otp });
+        // }
 
         //    stored in db 
         const otpBody = await OTP.create({
             email,
             otp,
         });
-
         console.log("otp stored is :", otpBody);
 
         //success return
@@ -191,7 +190,7 @@ exports.login = async (req, res) => {
         }
 
         // check user already register or not 
-        const user = await User.findOne({ email });
+        const user = await User.findOne({ email }).populate('additionDetails').exec();
         if (!user) {
             return (
                 res.status(400).json({
@@ -222,6 +221,8 @@ exports.login = async (req, res) => {
                 const options = {
                     expiresIn: new Date(Date.now() + 24 * 3600 * 1000),
                     httpOnly: true,
+                    secure: false,   // Set to true for production (HTTPS), false for development (HTTP)
+                    sameSite: 'Strict', // Optional, but it prevents sending cookies with cross-site requests
                 }
                 res.cookie("token", token, options).status(200).json({
                     success: true,
@@ -267,14 +268,27 @@ exports.changePassword = async (req, res) => {
         }
 
         //extract the user from token
-        const token = user.token || req.cookies.token;
+        const token = req.cookies.token          // also fetch from "req.user" by middleware logic
+
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);  // Decode the token using JWT_SECRET
+
+        const userCheckPass = await User.findOne({ email: decoded.email })
+        console.log("current",userCheckPass);
+
+        const isPasswordMatch = await bcrypt.compare(password, userCheckPass.password);
+        if(!isPasswordMatch){
+            return res.status(400).json({
+                success:false,
+                message : "Current Password Incorrect",
+            })
+        }
 
         //password hashed
-        const hashedPassword = await bcrypt.hash(password, 10);
+        const newhashedPassword = await bcrypt.hash(newPassword, 10);
 
         //update password in db
-        const user = User.findOneAndUpdate({ email: token.email },
-            { password: hashedPassword },
+        const user =await User.findOneAndUpdate({ email: decoded.email },
+            { password: newhashedPassword },
             { new: true }
         );
 
@@ -295,3 +309,44 @@ exports.changePassword = async (req, res) => {
 
     }
 }
+
+//get user by cookie
+exports.isLogin = async (req, res) => {
+    const token = req.cookies.token;
+    
+    if (token) {
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);  // Decode the token using JWT_SECRET
+        console.log("Decoded token:", decoded);
+        const email = decoded.email;
+        const user = await User.findOne({ email }).populate("additionDetails").exec();
+        if (!user) {
+            return (
+                res.status(400).json({
+                    message: "User not exist ",
+                    success: false,
+                })
+            )
+        }
+
+        res.json({ 'user': user });
+    } else {
+        res.status(401).json({ message: 'Unauthorized/No token exits' });
+    }
+}
+
+// logout 
+exports.logout = async (req, res) => {
+    try {
+        res.clearCookie('token', {
+            httpOnly: true, // Ensures the cookie is only accessible by the server
+            secure: true,   // Use 'true' if you're using HTTPS
+            sameSite: 'strict',
+        });
+
+        res.status(200).json({ message: 'Logged out successfully.' });
+    }
+    catch (err) {
+        return res.status(401).json({ message: 'Invalid token.' });
+    }
+};
+

@@ -4,7 +4,9 @@ const router = express();
 const { sendOTP,
     signUp,
     login,
-    changePassword
+    changePassword,
+    isLogin,
+    logout
 } = require('../controller/Auth');
 
 
@@ -13,10 +15,13 @@ const { resetPasswordToken,
 } = require('../controller/ResetPassword');
 
 
-const { auth} = require('../middlewares/auth');
+const { auth,isStudent} = require('../middlewares/auth');
 
 
 // -----------------authenticate router -----------------
+
+//router of isLogin
+router.get('/isLogin',auth,isLogin); 
 
 //router for login user
 router.post('/login', login);
@@ -24,6 +29,7 @@ router.post('/login', login);
 //router for signup user 
 router.post('/signup', signUp);
 
+router.post('/logout',logout);
 //router for resetpassword
 router.post('/changePassword', auth, changePassword);
 

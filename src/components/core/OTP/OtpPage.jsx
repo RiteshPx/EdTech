@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { signup } from '../../../api/userApi';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import { toast } from 'react-toastify';
 
 export const OtpPage = ({ formData, setFormData, handleChange }) => {
     const navigate = useNavigate();
@@ -13,14 +13,19 @@ export const OtpPage = ({ formData, setFormData, handleChange }) => {
             const response = await signup(formData);          // axios.post("http://localhost:4000/api/v1/auth/signup", formData);
             console.log(response.data);
             console.log(formData);
-            alert(`OTP Submitted: ${formData.otp}`);
+            toast.success(`OTP Submitted: ${formData.otp}`);
             navigate('/login');
         }
         catch (error) {
+            setFormData((prevFormData) => ({
+                ...prevFormData, // Spread the previous state
+                otp: '', // Update only the otp field
+            }));            
+            toast.warn("OTP doesn't match");
             console.error('Error sending OTP:', error.response?.data || error.message); // Handle error
         }
     };
-        return (
+    return (
         <div className="min-h-screen flex items-center justify-center bg-gray-100">
             <div className="bg-white p-6 rounded-lg shadow-lg w-96">
                 <h2 className="text-2xl font-semibold text-center text-gray-700 mb-6">Enter OTP</h2>

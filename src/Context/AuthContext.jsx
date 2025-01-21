@@ -1,58 +1,51 @@
 import React, { createContext, useState, useEffect } from 'react';
-import axios from 'axios';
-import { userlogin } from '../api/userApi'
+import { isLogin, logoutUser } from '../api/userApi'
+import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
 
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null); 
-  const [loading, setLoading] = useState(false); 
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const navigate = useNavigate();
 
-  
-  // Fetch current user on initial load
-  //   useEffect(() => {
-  //     const fetchUser = async () => {
-  //       try {
-  //         const response = await axiosInstance.get('/auth/user');
-  //         setUser(response.data); // Backend should return user data
-  //       } catch (error) {
-  //         console.error('Error fetching user:', error.response?.data || error.message);
-  //       } finally {
-  //         setLoading(false);
-  //       }
-  //     };
-
-  //     fetchUser();
-  //   }, [axiosInstance]);
-
-
-  // Login function
-  
-  const login = async (formData) => {
-    setLoading(true);
-    try {
-      const response = await  userlogin(formData);;
-      setUser(response.data.user);
-      console.log(response.data.user) // Backend should return user data on successful login
-    } catch (error) {
-      console.error('Login failed:', error.response?.data || error.message);
-      throw new Error(error.response?.data?.message || 'Login failed');
+  useEffect(() => {
+    // Send a request to the backend to check if the user is authenticated
+    async function fetchUser() {
+      const response = await isLogin()
+        .then(response => {
+          // If the response is successful, user is authenticated
+          setUser(response.data.user);
+          setIsAuthenticated(true);
+          console.log(response.data.user);
+        })
+        .catch(error => {
+          // If there's an error (e.g., the cookie is missing or invalid), user is not authenticated
+          setIsAuthenticated(false);
+        });
     }
-    setLoading(false);
-  };
+    fetchUser();
+  }, []);  
 
   // Logout function
   const logout = async () => {
     try {
-      //   await axiosInstance.post('/auth/logout');
-      setUser(null); // Clear user state after logout
+      await logoutUser()
+        .then(res => {
+          toast.success("logout successfully");
+          setUser(null); // Clear user state after logout
+          setIsAuthenticated(false);
+          navigate('/');
+        })
     } catch (error) {
       console.error('Logout failed:', error.response?.data || error.message);
     }
   };
 
   // AuthContext value
-  const value = { user, login, logout, loading };
+  const value = { setUser, setIsAuthenticated, setLoading, logout, isAuthenticated, user, loading };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };

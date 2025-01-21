@@ -1,14 +1,16 @@
-import React, { useContext, useNavigate ,useState} from 'react'
+import React, { useContext, useState } from 'react'
 import AuthContext from '../../Context/AuthContext';
+import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
+import { userlogin } from '../../api/userApi';
 
-
- const Login = () => {
+const Login = () => {
     const [formData, setFormData] = useState({
         email: '',
         password: '',
     });
-
-    const { login, user, loading } = useContext(AuthContext);
+    const navigate = useNavigate();
+    const { loading,setIsAuthenticated,setLoading,setUser } = useContext(AuthContext);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -18,22 +20,36 @@ import AuthContext from '../../Context/AuthContext';
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-             await login(formData);
-            alert('Login Successful!');
-           // Handle successful login (e.g., navigate, save token, etc.)
+            setLoading(true);
+            const response = await userlogin(formData);
+            const loginUser= response.data.user;
+            setIsAuthenticated(true);
+            setLoading(false);
+            toast.success('Login Successful!');
+            setUser(loginUser);
+            console.log(loginUser);
+            // Handle successful login (e.g., navigate, save token, etc.)
 
-            // if (user.accountType === "Instructor") {
-            //     navigate('/InstructorLogin');
-            // }
-            // else if (user.accountType === "Student") {
-            //     navigate('/StudentLogin');
-            // } else {
-            //     navigate('/Admin');
-            // }
+            if (loginUser.accountType === "Student") {
+                navigate('/StudentHomePage');
+            }
+            else if (loginUser.accountType === "Instructor") {
+                navigate('/InstructorHomePage');
+            } else {
+                navigate('/AdminHomePage');
+            }
 
         } catch (error) {
             console.error('Login Failed:', error.response?.data || error.message);
-            alert('Login Failed. Please check your credentials.');
+            setLoading(false);
+            toast.warning('Login Failed! Please check your credentials.', {
+                style: {
+                    backgroundColor: "#f44336", // Red background);
+                    color: "#fff",              // White text
+                    fontWeight: "bold",         // Bold text
+                    padding: "10px",
+                }
+            })
         }
     };
 
@@ -97,7 +113,7 @@ import AuthContext from '../../Context/AuthContext';
                     </div>
                 </form>
             </div>
-          </div>
+        </div>
     )
 }
 

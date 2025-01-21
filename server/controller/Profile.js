@@ -7,26 +7,17 @@ exports.updateProfile = async (req, res) => {
     try {
         //get data
         const { dateOfBirth = "", gender, contactNumber, about = "" } = req.body;   //nahi mila to empty ("")
-
+         console.log("cont",req.body);
+         console.log("ddd",contactNumber);
         //get userId
         const userId = req.user.id;
 
-
-        //validate   //maybe not need
-        if (!about) {
-            return res.status(400).json({
-                success: false,
-                message: "All field are require, try again",
-            })
-        }
-
         //find profile with help of userid
-        const userDetail = await User.findById({_id: userId });
-       const profileId = userDetail.additionDetails;
-       
-console.log(profileId);
-        const userProfile = await Profile.findById({_id:profileId });
-        console.log(userProfile);
+        const userDetail = await User.findById({ _id: userId }).populate("additionDetails").exec();
+        const profileId = userDetail.additionDetails;
+
+        console.log(profileId);
+        const userProfile = await Profile.findById( profileId );
 
         //update profile
         userProfile.contactNumber = contactNumber;
@@ -35,12 +26,14 @@ console.log(profileId);
         userProfile.dateOfBirth = dateOfBirth;
 
         await userProfile.save();
+        console.log(userProfile);
 
         //res send
-        res.status(400).json({
+        res.status(200).json({
             success: true,
             message: "successfully update profile",
             userProfile,
+            userDetail,
         })
     }
     catch (e) {
@@ -58,8 +51,8 @@ exports.deleteAccount = async (req, res) => {
     try {
         //get id of user
         const id = req.user.id;
-        const userDetail =await User.findById(id);
-        console.log("here",userDetail)
+        const userDetail = await User.findById(id);
+        console.log("here", userDetail)
 
         //validate
         if (!userDetail) {
@@ -69,7 +62,7 @@ exports.deleteAccount = async (req, res) => {
             })
         }
 
-        //TODO : unenrolled the student from courses   **************** HW*********
+        // unenrolled the student from courses   **************** HW*********
         let allCouresesId = Array.from(userDetail.enrollCourses);  //copy array
         while (allCouresesId.length) {
             let count = allCouresesId.length;
@@ -87,7 +80,7 @@ exports.deleteAccount = async (req, res) => {
         await User.findByIdAndDelete(id);
 
         //res send
-        res.status(400).json({
+        res.status(200).json({
             success: true,
             message: "successfully delete account",
         })
