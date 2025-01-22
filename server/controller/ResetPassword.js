@@ -7,7 +7,7 @@ exports.resetPasswordToken = async (req, res) => {
     try {
         //fetch email
         const email = req.body.email;
-
+console.log("email",email);
         //check user exist
         const user = await User.findOne({ email: email })
         if (!user) {
@@ -21,7 +21,7 @@ exports.resetPasswordToken = async (req, res) => {
         let token = crypto.randomUUID();
 
         //update user to add token and expire time
-        const updateUser = await User.findOneAndUpdate({ email: email },
+         await User.findOneAndUpdate({ email: email },
             {
                 token: token,
                 resetPasswordExpires: Date.now() + 5 * 60 * 1000,
@@ -29,7 +29,7 @@ exports.resetPasswordToken = async (req, res) => {
             { new: true });
 
         //URL generator
-        const URL = `http://localhost:3000//reset-password/${token}`;
+        const URL = `http://localhost:3000/resetPassword/${token}`;
 
         //send mail containing URL
         await mailSender(email,
@@ -58,11 +58,11 @@ exports.resetPassword = async (req, res) => {
     try {
         //fetch data
         const { token, password, confirmPassword } = req.body;
-
+console.log(password,"and",confirmPassword);
         //validation
-        if (password != confirmPassword) {
+        if (password !== confirmPassword) {
             return res.status(400).json({
-                message: "password doesnot match",
+                message: "password does not match",
                 success: false,
             })
         }

@@ -22,7 +22,7 @@ const AllCourses = () => {
     return (
         <div className='bg-slate-500'>
             {!isAuthenticated && 
-                <nav className="text-sm text-gray-400">
+                <nav className="text-base text-gray-400">
                 <a href="/" className="hover:text-white">Home</a> &gt;
                 <span className="text-white">All Courses</span>
             </nav>

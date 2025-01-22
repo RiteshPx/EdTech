@@ -34,3 +34,15 @@ export const logoutUser = async ()=>{
 export const changePasswordApi = async (passwordDetail)=>{
     return API.post("/changePassword",passwordDetail);
 }
+
+
+//resetPasswordToken
+export const resetPassword = async (payload)=>{
+    return API.post("/resetPasswordToken",payload);
+}
+
+
+//resetPassword
+export const verifySignaturePassword = async (passwordDetail)=>{
+    return API.post("/resetPassword",passwordDetail);
+}

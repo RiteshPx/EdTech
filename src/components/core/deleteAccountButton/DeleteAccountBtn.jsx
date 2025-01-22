@@ -3,7 +3,7 @@ import { toast } from 'react-toastify';
 import { deleteAccount } from '../../../api/profileApi';
 import { useNavigate } from 'react-router-dom';
 
-const DeleteAccountBtn = ({showDeleteModal,setShowDeleteModal}) => {
+const DeleteAccountBtn = ({setShowDeleteModal}) => {
   const navigate=useNavigate();
 
   const handleDelete =async () => {

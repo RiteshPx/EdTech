@@ -2,7 +2,7 @@ import React,{useState} from 'react'
 import { changePasswordApi } from '../../../api/userApi';
 import { toast } from 'react-toastify';
 
-export const PasswordChange = ({showChangePassword,setShowChangePassword}) => {
+export const PasswordChange = ({setShowChangePassword}) => {
     const [passwordForm, setPasswordForm] = useState({
         password :"",
         newPassword:"",

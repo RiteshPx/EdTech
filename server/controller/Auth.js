@@ -293,7 +293,7 @@ exports.changePassword = async (req, res) => {
         );
 
         //send mail -- update password
-        mailSender(token.email, "from EdTech", "password changed successfully");
+        mailSender(decoded.email, "from EdTech", "password changed successfully");
 
         //send res
         res.status(200).json({

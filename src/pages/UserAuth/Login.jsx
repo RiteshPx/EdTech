@@ -31,12 +31,12 @@ const Login = () => {
             // Handle successful login (e.g., navigate, save token, etc.)
 
             if (loginUser.accountType === "Student") {
-                navigate('/StudentHomePage');
+                navigate('/Student');
             }
             else if (loginUser.accountType === "Instructor") {
-                navigate('/InstructorHomePage');
+                navigate('/Instructor');
             } else {
-                navigate('/AdminHomePage');
+                navigate('/Admin');
             }
 
         } catch (error) {
@@ -107,7 +107,7 @@ const Login = () => {
 
                     {/* Forgot Password */}
                     <div className="text-center">
-                        <a href="/forgot-password" className="text-indigo-600 hover:underline">
+                        <a href="/resetPassword" className="text-indigo-600 hover:underline">
                             Forgot your password?
                         </a>
                     </div>

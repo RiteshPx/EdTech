@@ -26,7 +26,7 @@ export const OtpPage = ({ formData, setFormData, handleChange }) => {
         }
     };
     return (
-        <div className="min-h-screen flex items-center justify-center bg-gray-100">
+        <div className="min-h-screen flex items-center justify-center bg-primay">
             <div className="bg-white p-6 rounded-lg shadow-lg w-96">
                 <h2 className="text-2xl font-semibold text-center text-gray-700 mb-6">Enter OTP</h2>
                 <form onSubmit={handleSubmit} className="flex flex-col items-center">

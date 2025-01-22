@@ -5,9 +5,8 @@ import Signup from './pages/UserAuth/Signup';
 import Login from '../src/pages/UserAuth/Login'
 import { Navigation } from './pages/Navigation';
 import StudentHomePage from './pages/studentPages/StudentHomePage';
-import { InstructorLogin } from './pages/instructorPages/InstructorLogin';
+import  InstructorHomePage  from './pages/instructorPages/InstructorHomePage';
 import { AdminLogin } from './pages/AdminLogin';
-import { useState } from 'react';
 import { NotFound } from './pages/NotFound';
 import { StudentPrivateRouter } from './pages/PrivateRouter/StudentPrivateRouter';
 import AllCourses from './pages/AllCourses';
@@ -15,6 +14,8 @@ import { ToastContainer } from 'react-toastify';
 import CourseDetails from './pages/CourseDetail';
 import ContactForm from './pages/ContactForm';
 import { InstructorPrivateRouter } from './pages/PrivateRouter/InstructorPrivateRouter';
+import { ResetPassword } from './pages/UserAuth/ResetPassword';
+import { VerifyResetPassword } from './pages/UserAuth/VerifyResetPassword';
 
 function App() {
   return (
@@ -39,17 +40,17 @@ function App() {
         <Route path='/showCourse/:courseId' element={<CourseDetails />} />
         <Route path='/login' element={<Login />} />
         <Route path='/contactForm' element={<ContactForm />} />
-        <Route path='/StudentHomePage' element={<StudentHomePage />} />
+        <Route path='/resetPassword' element={<ResetPassword />} />
+        <Route path='/resetPassword/:token' element={<VerifyResetPassword />} />
 
-
-        <Route path='/StudentHomePage' element={
+        <Route path='/Student' element={
           <StudentPrivateRouter>
             <StudentHomePage />
           </StudentPrivateRouter>} />
 
-        <Route path='/InstructorLogin' element={
+        <Route path='/Instructor' element={
           <InstructorPrivateRouter>
-            <InstructorLogin />
+            <InstructorHomePage />
           </InstructorPrivateRouter>
         } />
 

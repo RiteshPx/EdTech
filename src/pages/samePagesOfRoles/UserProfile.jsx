@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { updateProfile } from "../../api/profileApi";
 import { toast } from "react-toastify";
 
-export const StudentProfile = ({ user}) => {
+export const UserProfile = ({ user}) => {
     // State for student details
     const additionDetails = user.additionDetails;
 

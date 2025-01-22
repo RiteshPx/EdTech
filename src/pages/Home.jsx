@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { FaArrowRightLong } from "react-icons/fa6";
 import { Highlight } from '../components/core/homePage/Highlight';
@@ -9,13 +9,16 @@ import imagecode from '../assets/images/codeImage.jpeg';
 import { ShowCourses } from '../components/core/homePage/ShowCourses';
 import home from '../assets/images/home.avif';
 import AuthContext from '../Context/AuthContext';
-
 export const Home = () => {
     const { isAuthenticated, user } = useContext(AuthContext);
     const navigate = useNavigate();
-    if (isAuthenticated) {
-        navigate(`/${user.accountType}HomePage`)
-    }
+
+    useEffect(() => {
+        if (isAuthenticated) {
+            return navigate(`/${user.accountType}`)
+        }
+        // Place the navigate call inside useEffect
+    }, [navigate]);
     return (
 
         <div className=' bg-primay'>

@@ -5,7 +5,14 @@ import AuthContext from '../../Context/AuthContext';
 
 export const InstructorPrivateRouter = ({children}) => {
         {
-            const {isAuthenticated,user} = useContext(AuthContext)
+            const {isAuthenticated,loading,user} = useContext(AuthContext)
+            if (loading) {
+                return (
+                    <div className="h-screen flex items-center justify-center">
+                        <span className="loader"></span>
+                    </div>
+                )
+            }
             if(isAuthenticated && user.accountType ==="Instructor") {
                 return children;
             }

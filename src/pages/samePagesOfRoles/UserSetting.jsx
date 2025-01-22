@@ -4,7 +4,7 @@ import AuthContext from '../../Context/AuthContext';
 import DeleteAccountBtn from "../../components/core/deleteAccountButton/DeleteAccountBtn";
 
 
-export const StudentSetting = ({ user, handleSelection }) => {
+export const UserSetting = ({ user, handleSelection }) => {
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     //change password logic
     const [showChangePassword, setShowChangePassword] = useState(false);
@@ -13,7 +13,7 @@ export const StudentSetting = ({ user, handleSelection }) => {
     return (
         <div className="min-h-screen  bg-gray-100 flex flex-col items-center p-6">
             <div className="w-full max-w-md bg-white rounded shadow-lg p-6">
-                <h1 className="text-2xl font-bold text-gray-800 mb-4">Student Settings</h1>
+                <h1 className="text-2xl font-bold text-gray-800 mb-4">Settings</h1>
 
                 {/* Profile Section */}
                 <div className="mb-6">

@@ -5,10 +5,7 @@ const {updateProfile,
        deleteAccount
 }=require('../controller/Profile');
 
-const {auth,
-    isAdmin,
-    isInstructor,
-    isStudent
+const {auth   
   }= require('../middlewares/auth');
 
 

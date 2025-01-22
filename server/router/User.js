@@ -39,8 +39,8 @@ router.post('/sendOTP', sendOTP);
 
 // -----------------------reset pasword---------------
 //first send token , take care of it
-router.post('/resetPasswordToken',auth,resetPasswordToken);
-router.post('/resetPassword',auth,resetPassword);
+router.post('/resetPasswordToken',resetPasswordToken);
+router.post('/resetPassword',resetPassword);
 
 
 module.exports = router;

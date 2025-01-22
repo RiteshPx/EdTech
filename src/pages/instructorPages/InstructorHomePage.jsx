@@ -1,23 +1,23 @@
 import React, { useContext, useState } from 'react';
 import Logo from "../../assets/images/logo.png"
 import Header from '../../components/core/studentHomePage/Header';
-import Dashboard from './Dashboard';
+import {Dashboard } from './Dashboard';
 import AuthContext from '../../Context/AuthContext';
-import { Courses } from './Courses';
+import { MyCourses } from './MyCourses';
 import { UserProfile } from '../samePagesOfRoles/UserProfile';
 import { UserSetting } from '../samePagesOfRoles/UserSetting';
+import CreateCoursePage from './CreateCoursePage';
 
-export default function StudentHomePage() {
+export default function InstructorHomePage() {
   const { user } = useContext(AuthContext);
   console.log(user);
 
   const [selectedItem, setSelectedItem] = useState('Dashboard'); // Default selected item
   const menuItems = [
     'Dashboard',
-    'Course',
-    'Resources',
+    'My Courses',
+    'Create Course',
     'Chat',
-    'Schedule',
     'Profile',
     'Setting',
   ];
@@ -60,9 +60,11 @@ export default function StudentHomePage() {
       <div className="flex-grow overflow-y-auto">
         <Header user={user} />
         {selectedItem === 'Dashboard' && <Dashboard user={user}/>}
-        {selectedItem === 'Course' && <Courses user={user}/>}
+        {selectedItem === 'My Courses' && <MyCourses user={user}/>}
         {selectedItem === 'Profile' && <UserProfile user={user}/>}
         {selectedItem === 'Setting' && <UserSetting user={user} handleSelection={handleSelection}/>}
+        {selectedItem === 'Create Course' && <CreateCoursePage user={user}/>}
+
       </div>
     </div>
   );
