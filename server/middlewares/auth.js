@@ -6,13 +6,13 @@ require('dotenv').config();
 exports.auth = async (req, res, next) => {
     try {
         // Fetch token from Authorization header, cookies, or other sources
-        let token =req.cookies.token || req.header("Authorization")?.replace("Bearer ", "").trim();
-        
+        let token = req.cookies.token || req.header("Authorization")?.replace("Bearer ", "").trim();
+
         // If token is not found in Authorization header, try from cookies
         if (!token) {
             token = req.cookies.token;
         }
-        console.log("token is ",token)
+        console.log("token is ", token)
         // If no token is present, send an error response
         if (!token) {
             return res.status(400).json({
@@ -48,8 +48,8 @@ exports.auth = async (req, res, next) => {
 //ISstudent
 exports.isStudent = (req, res, next) => {
     try {
-        if (req.user.accountType != "Student") {
-            res.status(401).json({
+        if (req.user.accountType !== "Student") {
+            return res.status(401).json({
                 success: false,
                 message: "This is protected route for students only ",
             })
@@ -68,8 +68,8 @@ exports.isStudent = (req, res, next) => {
 //isInstructor
 exports.isInstructor = (req, res, next) => {
     try {
-        if (req.user.accountType != "Instructor") {
-            res.status(401).json({
+        if (req.user.accountType !== "Instructor") {
+           return res.status(401).json({
                 success: false,
                 message: "This is protected route for Instructor only ",
             })
@@ -89,7 +89,7 @@ exports.isInstructor = (req, res, next) => {
 exports.isAdmin = (req, res, next) => {
     try {
         if (req.user.accountType != "Admin") {
-            res.status(401).json({
+           return res.status(401).json({
                 success: false,
                 message: "This is protected route for Admin only ",
             })

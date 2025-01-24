@@ -5,7 +5,6 @@ const uploadToCloudinary = require('../utils/cloudinaryUploader');
 require('dotenv').config();
 const mongoose = require('mongoose');
 
-
 //CREATE COURSES HANDLER FUNCTION 
 exports.createCourse = async (req, res) => {
     try {

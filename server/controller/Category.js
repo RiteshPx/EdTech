@@ -20,11 +20,10 @@ exports.createCategory = async (req, res) => {
             name,
             description,
         })
-        console.log(categoryDetails);
-        return res.status(200).json({message:" create successfully"})
+        return res.status(200).json({message:" create successfully",categoryDetails})
     }
     catch (e) {
-        res.status(400).json({
+        return res.status(400).json({
             success: false,
             message: e.message,
         })

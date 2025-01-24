@@ -1,7 +1,10 @@
-import React, { useState } from 'react';
-import axios from 'axios';
+import React, { useEffect, useState } from 'react';
+import { createCourseApi, showAllCategoryApi } from '../../api/courseApi';
+import { AddCategoryModal } from '../../components/categotyComponent/AddCategoryModal';
+import { toast } from 'react-toastify';
 
 const CreateCoursePage = () => {
+    const [showModal, setShowModal] = useState(false);
     const [formData, setFormData] = useState({
         courseName: '',
         courseDescription: '',
@@ -32,14 +35,32 @@ const CreateCoursePage = () => {
         });
 
         try {
-            const response = await axios.post('/api/courses', data, {
-                headers: { 'Content-Type': 'multipart/form-data' },
-            });
-            console.log('Course created successfully:', response.data);
-            alert('Course created successfully!');
+            const response = await createCourseApi(data);
+            console.log('Course created successfully:', response.data.data._id);
+            toast.success('Course created successfully!');
         } catch (error) {
             console.error('Error creating course:', error);
             alert('Failed to create the course. Please try again.');
+        }
+    };
+
+    // fetch category from backend
+    const [Category, setCategory] = useState([])
+    useEffect(() => {
+        const fetchCategories = async () => {
+            const { data } = await showAllCategoryApi();
+            console.log(data.allCategorys);
+            setCategory(data.allCategorys)
+        }
+        fetchCategories();
+    }, [showModal])
+
+    // for Add new Category
+    const handleCategoryChange = (e) => {
+        if (e.target.value === "new") {
+            setShowModal(true); // Show modal for new category
+        } else {
+            handleChange(e); // Update formData for existing categories
         }
     };
 
@@ -74,17 +95,30 @@ const CreateCoursePage = () => {
                     </div>
 
                     <div>
-                        <label className="block text-sm font-medium text-gray-700">Category ID</label>
-                        <input
-                            type="text"
+                        <label className="block text-sm font-medium text-gray-700">Category</label>
+                        <select
                             name="categoryId"
                             value={formData.categoryId}
-                            onChange={handleChange}
-                            placeholder="Enter category ID"
+                            onChange={handleCategoryChange}
                             className="mt-1 block w-full px-4 py-2 border rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
                             required
-                        />
+                        >
+                            <option value="" disabled>--Select a Category--</option>
+                            { 
+                                Category.map((data, index) => (
+                                    <option value={data._id} key={index}>
+                                        {data.name}
+                                    </option>
+                                ))
+                            }
+                            <option value="new">+ Add New Category</option>
+                        </select>
                     </div>
+
+                    {/* Modal for Adding New Category */}
+                    {showModal && (
+                       <AddCategoryModal setShowModal={setShowModal} setFormData={setFormData}/>
+                    )}
 
                     <div>
                         <label className="block text-sm font-medium text-gray-700">What You Will Learn</label>

@@ -51,10 +51,9 @@ router.get('/showAllCourse',showAllCourse);
 router.post('/getCourseDetails',getCourseDetails);
 
 
-
 //  --------------------------category first--------------
 
-router.post('/createCategory',auth,isAdmin,createCategory);
+router.post('/createCategory',auth,isInstructor,createCategory);
 router.post('/getCategoryPageDetail',getCategoryPageDetail)
 router.get('/showAllCategory',showAllCategorys)
 

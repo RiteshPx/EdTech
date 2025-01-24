@@ -3,7 +3,7 @@ const Section = require("../models/Section");
 const mongoose = require('mongoose');
 
 
-//create SEction
+//create Section of course
 exports.createSection = async (req, res) => {
     try {
         //data fetch
