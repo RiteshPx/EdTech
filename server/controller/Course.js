@@ -10,7 +10,7 @@ exports.createCourse = async (req, res) => {
     try {
         //fetch data
         const { courseName, courseDescription, categoryId, whatYouWillLearn, price, tag } = req.body;
-        const thumbnails  = req.files.thumbnail   ;
+        const thumbnails = req.files.thumbnail;
         //validation
         if (!courseName || !courseDescription || !categoryId || !whatYouWillLearn || !price || !thumbnails) {
             return res.status(400).json({
@@ -32,7 +32,7 @@ exports.createCourse = async (req, res) => {
 
         //check category is valid or not 
         const cid = new mongoose.Types.ObjectId(categoryId);      //string to object id
-        const categoryDetails = await Category.findById({ _id : cid });   //its take category as refrence and category come with its id 
+        const categoryDetails = await Category.findById({ _id: cid });   //its take category as refrence and category come with its id 
         if (!categoryDetails) {
             res.status(400).json({
                 success: false,
@@ -41,7 +41,7 @@ exports.createCourse = async (req, res) => {
         }
 
         //upload image in cloudinary
-        const thumbnailImage = await uploadToCloudinary(thumbnails,process.env.FOLDER_NAME );
+        const thumbnailImage = await uploadToCloudinary(thumbnails, process.env.FOLDER_NAME);
 
         //create entry of course in db
         const newCourse = await Course.create({
@@ -53,19 +53,20 @@ exports.createCourse = async (req, res) => {
             price,
             instructor: instructorDetail._id,                 // instructor: userId,
             tag,
+
         })
 
         //UPDATE INSTRUCTOR with this course
         await User.findOneAndUpdate({ _id: userId },        // _id: instructorDetail._id
             {
                 $push: {
-                    courses: newCourse._id,
+                    enrollCourses: newCourse._id,
                 }
             }, { new: true }
         )
 
         //update the category schema with this course
-        await Category.findByIdAndUpdate({ _id:cid },           //its take category as refrence and category come with its id 
+        await Category.findByIdAndUpdate({ _id: cid },           //its take category as refrence and category come with its id 
             {
                 $push: {
                     courses: newCourse._id,
@@ -94,7 +95,7 @@ exports.createCourse = async (req, res) => {
 //Get all courses handler function 
 exports.showAllCourse = async (req, res) => {
     try {
-        const allCourses = await Course.find({});
+        const allCourses = await Course.find({ status: 'Published' });
         // const allCourses = await Course.find({},
         //     {
         //         courseName:true,
@@ -124,6 +125,7 @@ exports.showAllCourse = async (req, res) => {
     }
 }
 
+
 //get alldetails of a courese
 exports.getCourseDetails = async (req, res) => {
     try {
@@ -138,7 +140,7 @@ exports.getCourseDetails = async (req, res) => {
         const cid = new mongoose.Types.ObjectId(courseId);                  //string to object id
 
         const courseDetail = await Course.findById(
-            {_id: cid })
+            { _id: cid })
             .populate(
                 {
                     path: 'instructor',
@@ -151,26 +153,26 @@ exports.getCourseDetails = async (req, res) => {
                 {
                     path: 'courseContent',
                     populate: {
-                        path:"subSection",
+                        path: "subSection",
                     }
                 }
             ).populate('ratingAndReviews')
             .populate("category")
             .exec();
 
-            //validation
-            if(!courseDetail){
-                return res.status(400).json({
-                    message:'course does not found',
-                    success:false,
-                })
-            }
+        //validation
+        if (!courseDetail) {
+            return res.status(400).json({
+                message: 'course does not found',
+                success: false,
+            })
+        }
 
         //send res
         res.status(200).json({
             success: true,
             message: "Detail of course are fetching successfully",
-            data: courseDetail,
+            courseDetail,
         })
 
     }
@@ -178,6 +180,57 @@ exports.getCourseDetails = async (req, res) => {
         return res.status(500).json({
             success: false,
             message: e.message,
+        })
+    }
+}
+
+//publishCourse of course 
+exports.publishCourse = async (req, res) => {
+    try {
+        const { courseId } = req.body;
+
+        if (!courseId) {
+            return res.status(400).json({
+                success: false,
+                Message: "Enable to fetch CourseId",
+            })
+        }
+        const course = await Course.findById(courseId )
+            .populate(
+                {
+                    path: 'courseContent',
+                    populate: {
+                        path: "subSection",
+                    }
+                }
+            )
+            .exec();
+        if (!course) {
+            return res.status(400).json({
+                success: false,
+                message: "Enable to fetch Course",
+            })
+        }
+        if(course.courseContent.length === 0 || course.courseContent?.subSection?.length===0){
+            return res.status(400).json({
+                success: false,
+                message: "Add complete Details of Course",
+            })
+        }
+        console.log("ken",course.courseContent.length)
+        const coursePublish = await Course.findByIdAndUpdate(courseId,
+            { status: 'Published' }, // Update the 'age' field
+            { new: true })
+
+        res.status(200).json({
+            success: true,
+            message: "Course Published SuccessFully",
+        })
+    } catch (e) {
+        console.log(e);
+        return res.status(400).json({
+            success: false,
+            message: "Enable to fetch Course",
         })
     }
 }

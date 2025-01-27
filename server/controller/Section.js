@@ -61,7 +61,7 @@ exports.updateSection = async (req, res) => {
         const { sectionName, sectionId } = req.body;
 
         //validate data
-        if (!sectionName || !this.updateSection) {
+        if (!sectionName || !sectionId) {
             return res.status(400).json({
                 success: false,
                 message: 'all field are required',

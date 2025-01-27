@@ -7,7 +7,6 @@ const jwt = require("jsonwebtoken");
 require("dotenv").config();
 const mailSender = require('../utils/mailSender');
 
-
 //send otp for singup
 exports.sendOTP = async (req, res) => {
     try {
@@ -190,7 +189,13 @@ exports.login = async (req, res) => {
         }
 
         // check user already register or not 
-        const user = await User.findOne({ email }).populate('additionDetails').exec();
+        const user = await User.findOne({ email })
+        .populate({ path: 'additionDetails' }) // More verbose, allows options
+        .populate({ path: 'enrollCourses' })
+        .exec();
+
+        console.log('User found:', user);
+
         if (!user) {
             return (
                 res.status(400).json({
@@ -241,7 +246,7 @@ exports.login = async (req, res) => {
     catch (e) {
         res.status(500).json({
             message: "Login Failure,try again",
-            success: true,
+            success: false,
         })
     }
 }
@@ -273,13 +278,13 @@ exports.changePassword = async (req, res) => {
         const decoded = jwt.verify(token, process.env.JWT_SECRET);  // Decode the token using JWT_SECRET
 
         const userCheckPass = await User.findOne({ email: decoded.email })
-        console.log("current",userCheckPass);
+        console.log("current", userCheckPass);
 
         const isPasswordMatch = await bcrypt.compare(password, userCheckPass.password);
-        if(!isPasswordMatch){
+        if (!isPasswordMatch) {
             return res.status(400).json({
-                success:false,
-                message : "Current Password Incorrect",
+                success: false,
+                message: "Current Password Incorrect",
             })
         }
 
@@ -287,7 +292,7 @@ exports.changePassword = async (req, res) => {
         const newhashedPassword = await bcrypt.hash(newPassword, 10);
 
         //update password in db
-        const user =await User.findOneAndUpdate({ email: decoded.email },
+        const user = await User.findOneAndUpdate({ email: decoded.email },
             { password: newhashedPassword },
             { new: true }
         );
@@ -313,12 +318,17 @@ exports.changePassword = async (req, res) => {
 //get user by cookie
 exports.isLogin = async (req, res) => {
     const token = req.cookies.token;
-    
+
     if (token) {
         const decoded = jwt.verify(token, process.env.JWT_SECRET);  // Decode the token using JWT_SECRET
         console.log("Decoded token:", decoded);
         const email = decoded.email;
-        const user = await User.findOne({ email }).populate("additionDetails").exec();
+
+        const user = await User.findOne({ email })
+        .populate({ path: 'additionDetails' }) // More verbose, allows options
+        .populate({ path: 'enrollCourses' })
+        .exec();
+        
         if (!user) {
             return (
                 res.status(400).json({
@@ -327,7 +337,6 @@ exports.isLogin = async (req, res) => {
                 })
             )
         }
-
         res.json({ 'user': user });
     } else {
         res.status(401).json({ message: 'Unauthorized/No token exits' });
@@ -342,7 +351,6 @@ exports.logout = async (req, res) => {
             secure: true,   // Use 'true' if you're using HTTPS
             sameSite: 'strict',
         });
-
         res.status(200).json({ message: 'Logged out successfully.' });
     }
     catch (err) {

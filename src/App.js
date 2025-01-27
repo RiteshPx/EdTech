@@ -16,6 +16,7 @@ import ContactForm from './pages/ContactForm';
 import { InstructorPrivateRouter } from './pages/PrivateRouter/InstructorPrivateRouter';
 import { ResetPassword } from './pages/UserAuth/ResetPassword';
 import { VerifyResetPassword } from './pages/UserAuth/VerifyResetPassword';
+import EnrollmentSuccess from './pages/studentPages/EnrollmentSuccess';
 
 function App() {
   return (
@@ -48,14 +49,18 @@ function App() {
             <StudentHomePage />
           </StudentPrivateRouter>} />
 
+          <Route path='/EnrollmentSuccess' element={
+          <StudentPrivateRouter>
+            <EnrollmentSuccess />
+          </StudentPrivateRouter>} />
+
         <Route path='/Instructor' element={
           <InstructorPrivateRouter>
             <InstructorHomePage />
           </InstructorPrivateRouter>
         } />
 
-        <Route path='/AdminLogin' element={<AdminLogin />}/>
-    
+        <Route path='/AdminLogin' element={<AdminLogin />}/>    
         <Route path='*' element={<NotFound />} />
 
       </Routes>

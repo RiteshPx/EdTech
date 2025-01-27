@@ -10,13 +10,14 @@ exports.createSubSection = async (req, res) => {
     try {
 
         //fetch data and video
+        console.log("files",req.files)
         const { sectionId, title, timeDuration, description } = req.body;
         const video = req.files.videoFile;
 
         //validation
         if (!sectionId || !title || !timeDuration || !description || !video) {
             return res.status(400).json({
-                success: false,
+                success: false, 
                 message: "ALl fields are required"
             })
         }
@@ -34,14 +35,14 @@ exports.createSubSection = async (req, res) => {
             })
 
         //update subsection in section 
-        const updatedSubSection = await Section.findByIdAndUpdate({ _id:sectionId },
+        const updateSection = await Section.findByIdAndUpdate({ _id:sectionId },
             {
                 $push: {
                     subSection: createSubSection._id,
                 }
             },
             { new: true },
-        )
+        ).populate("subSection").exec();
 
 
         //res send 
@@ -49,6 +50,7 @@ exports.createSubSection = async (req, res) => {
             success: true,
             message: "successfully create subsection",
             createSubSection,
+            updateSection,
         })
     }
     catch (e) {

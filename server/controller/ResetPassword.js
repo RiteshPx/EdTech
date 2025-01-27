@@ -7,7 +7,6 @@ exports.resetPasswordToken = async (req, res) => {
     try {
         //fetch email
         const email = req.body.email;
-console.log("email",email);
         //check user exist
         const user = await User.findOne({ email: email })
         if (!user) {

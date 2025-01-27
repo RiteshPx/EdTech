@@ -4,6 +4,7 @@ const router = express();
 const {createCourse,
     getCourseDetails,
     showAllCourse,
+    publishCourse,
 } =require('../controller/Course');
 
 
@@ -13,7 +14,6 @@ const { createRatingAndReview,
  } = require('../controller/RatingAndReview');
 
 const {auth,
-   isAdmin,
    isInstructor,
    isStudent
  }= require('../middlewares/auth');
@@ -49,6 +49,7 @@ router.delete('/deleteSubSection',auth,isInstructor,deleteSubSection);
 
 router.get('/showAllCourse',showAllCourse); 
 router.post('/getCourseDetails',getCourseDetails);
+router.post('/publishCourse',publishCourse);
 
 
 //  --------------------------category first--------------

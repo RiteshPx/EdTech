@@ -3,10 +3,10 @@ import Logo from "../../assets/images/logo.png"
 import Header from '../../components/core/studentHomePage/Header';
 import {Dashboard } from './Dashboard';
 import AuthContext from '../../Context/AuthContext';
-import { MyCourses } from './MyCourses';
 import { UserProfile } from '../samePagesOfRoles/UserProfile';
 import { UserSetting } from '../samePagesOfRoles/UserSetting';
 import CreateCoursePage from './CreateCoursePage';
+import { DraftCourses } from './DraftCourses';
 
 export default function InstructorHomePage() {
   const { user } = useContext(AuthContext);
@@ -15,8 +15,8 @@ export default function InstructorHomePage() {
   const [selectedItem, setSelectedItem] = useState('Dashboard'); // Default selected item
   const menuItems = [
     'Dashboard',
-    'My Courses',
     'Create Course',
+    'Draft Courses',
     'Chat',
     'Profile',
     'Setting',
@@ -31,7 +31,7 @@ export default function InstructorHomePage() {
   }
 
   return (
-    <div className="flex h-screen">
+    <div className="flex h-full">
       {/* Sidebar */}
       <div className="bg-primary h-1/4 w-1/6 p-4 sticky top-0  ">
         <img
@@ -60,10 +60,11 @@ export default function InstructorHomePage() {
       <div className="flex-grow overflow-y-auto">
         <Header user={user} />
         {selectedItem === 'Dashboard' && <Dashboard user={user}/>}
-        {selectedItem === 'My Courses' && <MyCourses user={user}/>}
         {selectedItem === 'Profile' && <UserProfile user={user}/>}
         {selectedItem === 'Setting' && <UserSetting user={user} handleSelection={handleSelection}/>}
-        {selectedItem === 'Create Course' && <CreateCoursePage user={user}/>}
+        {selectedItem === 'Create Course' && <CreateCoursePage/>}
+        {selectedItem === 'Draft Courses' && <DraftCourses user={user}/>}
+       
 
       </div>
     </div>

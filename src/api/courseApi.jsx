@@ -29,3 +29,20 @@ export const createCategoryApi =async(payload)=>{
 export const createCourseApi= async(payload)=>{
     return API.post('/createCourse',payload);
 }
+
+
+//create Section
+export const createSectionApi= async(payload)=>{
+    return API.post('/createSection',payload);
+}
+
+
+//create SubSection
+export const createSubSectionApi= async(payload)=>{
+    return API.post('/createSubSection',payload);
+}
+
+//publish Course
+export const publishCourseApi= async(payload)=>{
+    return API.post('/publishCourse',payload);
+}

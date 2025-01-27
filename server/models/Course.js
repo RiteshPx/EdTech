@@ -1,5 +1,4 @@
 const mongoose= require("mongoose"); 
-const Category = require("./Category");
 
 const courseSchema =new mongoose.Schema({
    courseID:{
@@ -58,7 +57,12 @@ const courseSchema =new mongoose.Schema({
             ref:"User", 
             // require:true,
         }
-    ]
+    ],
+    status: {
+        type: String,
+        enum: ["Draft", "Published"],
+        default: "Draft",
+    }
 
 });
 

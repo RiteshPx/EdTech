@@ -27,7 +27,6 @@ const Login = () => {
             setLoading(false);
             toast.success('Login Successful!');
             setUser(loginUser);
-            console.log(loginUser);
             // Handle successful login (e.g., navigate, save token, etc.)
 
             if (loginUser.accountType === "Student") {

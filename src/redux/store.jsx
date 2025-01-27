@@ -1,10 +1,9 @@
 import { configureStore } from '@reduxjs/toolkit'
-import React from 'react'
-import CartSliceReduce from './Slices/CartSlice'
+import MyCourseSliceReduce from './Slices/CartSlice'
 
 const store = configureStore({
     reducer :{
-        cart : CartSliceReduce,
+        MyCourse : MyCourseSliceReduce,
     }
 })
 

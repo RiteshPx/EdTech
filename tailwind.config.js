@@ -13,6 +13,10 @@ module.exports = {
         textColor : "#1F2937", // (Dark Gray)
         ctaBtn: "#FF5C93" ,  // (Vivid Pink)
 
+        Charcoal  :'#333333',
+        onyx: '#353535',
+        jet: '#000000',
+
       }
     },
   },

@@ -9,16 +9,18 @@ import imagecode from '../assets/images/codeImage.jpeg';
 import { ShowCourses } from '../components/core/homePage/ShowCourses';
 import home from '../assets/images/home.avif';
 import AuthContext from '../Context/AuthContext';
+
 export const Home = () => {
-    const { isAuthenticated, user } = useContext(AuthContext);
+    const { isAuthenticated, user,loading } = useContext(AuthContext);
     const navigate = useNavigate();
 
     useEffect(() => {
+        console.log("home page useEffect",isAuthenticated)
         if (isAuthenticated) {
             return navigate(`/${user.accountType}`)
         }
         // Place the navigate call inside useEffect
-    }, [navigate]);
+    }, [loading]);
     return (
 
         <div className=' bg-primay'>

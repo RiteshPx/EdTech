@@ -32,7 +32,7 @@ const userSchema = new mongoose.Schema({
     },
     enrollCourses: [{
         type: mongoose.Schema.Types.ObjectId,
-        ref: "Courses",
+        ref: "Course",
     }],
     image: {
         type: String,
@@ -48,10 +48,7 @@ const userSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: "CourseProgress",
     }],
-    status: {
-        type: String,
-        enum: ["Draft", "Published"]
-    }
+    
 
 });
 
