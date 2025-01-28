@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { createSectionApi } from '../../api/courseApi';
 import { ShowSection } from './ShowSection';
 import { PublishCourse } from './PublishCourse';
+import { toast } from 'react-toastify';
 
 export const AdditionDetails = ({ course }) => {
     const [sectionModal, setSectionModal] = useState(false);
@@ -10,7 +11,7 @@ export const AdditionDetails = ({ course }) => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const payload = {
+       try{ const payload = {
             sectionName,
             courseId: course._id,
         }
@@ -18,6 +19,13 @@ export const AdditionDetails = ({ course }) => {
         console.log("create section data", data);
         setCourseContent(data.updateCourse.courseContent)
         setSectionModal(false);
+    }catch(error){
+         console.log(error);
+                    const errorMessage =
+                        error.response?.data?.message ||
+                        "An unexpected error occurred. Please try again.";
+                    toast.error(errorMessage);
+    }
     }
     return (
         <div className="w-full max-w-3xl bg-white p-8 rounded-lg shadow-lg">

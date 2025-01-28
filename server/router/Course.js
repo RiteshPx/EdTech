@@ -49,7 +49,7 @@ router.delete('/deleteSubSection',auth,isInstructor,deleteSubSection);
 
 router.get('/showAllCourse',showAllCourse); 
 router.post('/getCourseDetails',getCourseDetails);
-router.post('/publishCourse',publishCourse);
+router.post('/publishCourse',auth,isInstructor,publishCourse);
 
 
 //  --------------------------category first--------------

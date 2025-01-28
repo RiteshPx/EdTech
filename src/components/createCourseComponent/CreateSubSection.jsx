@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { createSubSectionApi } from "../../api/courseApi";
+import { toast } from "react-toastify";
 
 export const CreateSubSection = ({ setSubSectionModal,setSubSection ,sectionId}) => {
 
@@ -32,6 +33,7 @@ export const CreateSubSection = ({ setSubSectionModal,setSubSection ,sectionId})
         data.append("videoFile", formData.videoFile);
 
         try {
+
             const response = await createSubSectionApi(data);
                
                 setFormData({
@@ -46,8 +48,11 @@ export const CreateSubSection = ({ setSubSectionModal,setSubSection ,sectionId})
                  setSubSection(response.data.updateSection.subSection);
               
         } catch (error) {
-            console.error("Error submitting form:", error);
-            alert("An error occurred. Please try again.");
+             console.log(error);
+                        const errorMessage =
+                            error.response?.data?.message ||
+                            "An unexpected error occurred. Please try again.";
+                        toast.error(errorMessage);
         }
     };
 

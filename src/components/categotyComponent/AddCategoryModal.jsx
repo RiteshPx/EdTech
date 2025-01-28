@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { createCategoryApi } from '../../api/courseApi';
+import { toast } from 'react-toastify';
 
 
 export const AddCategoryModal = ({ setShowModal, setFormData }) => {
@@ -12,13 +13,20 @@ export const AddCategoryModal = ({ setShowModal, setFormData }) => {
 
     }
     const handleAddCategory = async () => {
-        const { data } = await createCategoryApi(newCategory);
+       try{ const { data } = await createCategoryApi(newCategory);
         setShowModal(false)
         // Function to update categoryId with a specific condition
         setFormData((prevState) => ({
             ...prevState,
             categoryId: data.categoryDetails._id, // Set categoryId with the new value
         }));
+    }catch(error){
+         console.log(error);
+                    const errorMessage =
+                        error.response?.data?.message ||
+                        "An unexpected error occurred. Please try again.";
+                    toast.error(errorMessage);
+    }
     };
     return (
         <div className="modal fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50">

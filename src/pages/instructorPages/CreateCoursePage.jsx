@@ -54,11 +54,15 @@ const CreateCoursePage = () => {
     // fetch category from backend
     const [Category, setCategory] = useState([])
     useEffect(() => {
+        try{
         const fetchCategories = async () => {
             const { data } = await showAllCategoryApi();
             setCategory(data.allCategorys)
         }
         fetchCategories();
+    }catch(error){
+
+    }
     }, [showModal])
 
     // for Add new Category
@@ -118,7 +122,7 @@ const CreateCoursePage = () => {
                                         </option>
                                     ))
                                 }
-                                <option value="new">+ Add New Category</option>
+                                <option value="new">++ Add New Category</option>
                             </select>
                         </div>
 
