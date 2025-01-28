@@ -227,7 +227,8 @@ exports.login = async (req, res) => {
                     expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // Cookie expires in 7 days
                     httpOnly: true,
                     secure: true,   // Set to true for production (HTTPS), false for development (HTTP)
-                    sameSite: 'None', // Optional, but it prevents sending cookies with cross-site requests
+                    sameSite: 'None',   // Optional, but it prevents sending cookies with cross-site requests
+                    domain: process.env.CLIENT_URL, 
                 }
                 res.cookie("token", token, options).status(200).json({
                     success: true,
@@ -350,6 +351,7 @@ exports.logout = async (req, res) => {
             httpOnly: true, // Ensures the cookie is only accessible by the server
             secure: true,   // Use 'true' if you're using HTTPS
             sameSite: 'None',
+            domain: process.env.CLIENT_URL, 
         });
         res.status(200).json({ message: 'Logged out successfully.' });
     }
