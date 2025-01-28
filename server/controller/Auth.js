@@ -226,7 +226,7 @@ exports.login = async (req, res) => {
                 const options = {
                     expiresIn: new Date(Date.now() + 24 * 3600 * 1000),
                     httpOnly: true,
-                    secure: false,   // Set to true for production (HTTPS), false for development (HTTP)
+                    secure: true,   // Set to true for production (HTTPS), false for development (HTTP)
                     sameSite: 'Strict', // Optional, but it prevents sending cookies with cross-site requests
                 }
                 res.cookie("token", token, options).status(200).json({
