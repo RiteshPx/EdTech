@@ -17,6 +17,7 @@ const connectCloudinary = require('./config/cloudinary');
 require('dotenv').config();
 // Initialize the Express app
 const app = express();
+app.set('trust proxy', 1); // Trust the first proxy
 
 // Middleware
 app.use(express.json());
