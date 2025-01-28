@@ -224,10 +224,10 @@ exports.login = async (req, res) => {
 
                 //set cookie
                 const options = {
-                    expiresIn: new Date(Date.now() + 24 * 3600 * 1000),
+                    expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // Cookie expires in 7 days
                     httpOnly: true,
                     secure: true,   // Set to true for production (HTTPS), false for development (HTTP)
-                    sameSite: 'Strict', // Optional, but it prevents sending cookies with cross-site requests
+                    sameSite: 'None', // Optional, but it prevents sending cookies with cross-site requests
                 }
                 res.cookie("token", token, options).status(200).json({
                     success: true,
@@ -349,7 +349,7 @@ exports.logout = async (req, res) => {
         res.clearCookie('token', {
             httpOnly: true, // Ensures the cookie is only accessible by the server
             secure: true,   // Use 'true' if you're using HTTPS
-            sameSite: 'strict',
+            sameSite: 'None',
         });
         res.status(200).json({ message: 'Logged out successfully.' });
     }
