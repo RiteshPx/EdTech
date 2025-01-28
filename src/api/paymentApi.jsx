@@ -1,7 +1,9 @@
 import axios from "axios";
+const Backend_Url = process.env.REACT_APP_API_BASE_URL
+
 
 const API = axios.create({
-    baseURL: 'http://localhost:4000/api/v1/payment',
+    baseURL: `${Backend_Url}/api/v1/payment`,
     withCredentials: true, // Include cookies in requests
 });
 

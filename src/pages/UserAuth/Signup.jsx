@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import axios from 'axios';
 import { OtpPage } from '../../components/core/OTP/OtpPage';
 import { toast } from 'react-toastify';
+import { sendOtpApi } from '../../api/userApi';
 const SignupForm = () => {
     const [formData, setFormData] = useState({
         email: '',
@@ -30,9 +30,8 @@ const SignupForm = () => {
         const payload = {
             email: formData.email,
         }
-        // const response = await sendOtp(formData.email);
         try {
-            const response = await axios.post('http://localhost:4000/api/v1/auth/sendOtp', payload);
+            const response = await sendOtpApi(payload)
             console.log(response.data); // Handle successful response
             console.log(formData);
             setLoading(false);

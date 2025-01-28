@@ -1,7 +1,8 @@
 import axios from "axios";
+const Backend_Url = process.env.REACT_APP_API_BASE_URL
 
 const API = axios.create({
-    baseURL: 'http://localhost:4000/api/v1/auth',
+    baseURL: `${Backend_Url}/api/v1/auth`,
     withCredentials: true, // Include cookies in requests
 });
 
@@ -11,9 +12,10 @@ export const signup = async (userDetail) => {
 }
 
 //sendotp
-export const sendOtp = async (email) => {
-    return API.post('/sendOTP', email)
+export const sendOtpApi = async (payload) => {
+    return API.post('/sendOTP', payload)
 }
+
 
 //login
 export const userlogin = async (userDetail) => {
