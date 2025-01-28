@@ -101,15 +101,14 @@ exports.verifySignature = async (req, res) => {
     try {
   console.log(req.body)
 
-        const secret = process.env.RAZORPAY_SECRET;
+        const secret = process.env.RAZORPAY_WEBHOOK_SECRET;
         const shasum = crypto.createHmac("sha256", secret);
         shasum.update(JSON.stringify(req.body));
         const digest = shasum.digest("hex");
 
-console.log("Generated digest:", digest);
-console.log("Received signature:", req.headers["x-razorpay-signature"]);
-console.log("Received signature:", req.headers['x-razorpay-signature']);
-
+// console.log("Generated digest:", digest);
+// console.log("Received signature:", req.headers["x-razorpay-signature"]);
+// console.log("Received signature:", req.headers['x-razorpay-signature']);
 
         if (digest === req.headers["x-razorpay-signature"]) {
             console.log('payment is sucessfully');
