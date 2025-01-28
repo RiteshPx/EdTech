@@ -21,7 +21,8 @@
   "main": "app.js",
   "scripts": {
     "start": "node app.js",
-    "dev": "nodemon app.js"
+    "dev": "nodemon app.js",
+     "prebuild": "npm rebuild bcrypt --build-from-source --force"
   },
   "author": "",
   "license": "ISC"
