@@ -1,10 +1,9 @@
-// Core dependencies
 const express = require('express');
 const cors = require('cors');                                       //..for entertain frontend
 const fileUpload = require('express-fileupload');
 const session = require("express-session");
 const MongoStore = require("connect-mongo");
-
+const path = require("path");
 
 var courseRouter = require('./router/Course');
 var profileRouter = require('./router/Profile')
@@ -22,7 +21,6 @@ const app = express();
 // Middleware
 app.use(express.json());
 app.set('trust proxy', 1);
-
 
 app.use(session({
   secret: process.env.SESSION_SECRET,
@@ -52,6 +50,13 @@ app.use(fileUpload({
    // Ensure temporary files are created for uploads
 }));
 
+// Serve static files from React build folder
+app.use(express.static(path.join(__dirname, "/build"))); 
+
+// Handle React Routes (Send index.html for all unknown routes)
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "/build", "index.html"));
+});
 
 // Database Connection
 connectDB();
