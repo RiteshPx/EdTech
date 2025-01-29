@@ -103,8 +103,14 @@ exports.verifySignature = async (req, res) => {
   console.log("Received signature--:", req.headers['x-razorpay-signature']);
 
         const secret = process.env.RAZORPAY_WEBHOOK_SECRET;
-        const shasum = crypto.createHmac("sha256", secret);
-        shasum.update(JSON.stringify(req.body));
+        const shasum = crypto.createHmac("sha256", secret); 
+
+        console.log("update ",shasum)
+
+        // shasum.update(JSON.stringify(req.body));
+        shasum.update(req.rawBody); // Use the raw request body
+        console.log("update 1 -",shasum)
+
         const digest = shasum.digest("hex");
 
 console.log("Generated digest:--", digest);
