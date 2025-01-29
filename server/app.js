@@ -21,6 +21,8 @@ const app = express();
 
 // Middleware
 app.use(express.json());
+app.set('trust proxy', 1);
+
 
 app.use(session({
   secret: process.env.SESSION_SECRET,
@@ -31,9 +33,11 @@ app.use(session({
       ttl: 1 * 24 * 60 * 60, // Session expiry time (1 day)
   }),
   cookie: { 
-    secure: true
-    // process.env.NODE_ENV === 'production', 
-  }  // Set `true` in production with HTTPS
+    maxAge: 1000 * 60 * 60 * 24 * 1, // 1 days
+    secure: process.env.NODE_ENV === 'production', 
+    httpOnly: true,
+    sameSite: 'None',
+  }  
 }));
 
 app.use(cors({

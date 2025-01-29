@@ -8,7 +8,7 @@ exports.auth = async (req, res, next) => {
         // Fetch token from Authorization header, cookies, or other sources
         // let token = req.cookies.token || req.header("Authorization")?.replace("Bearer ", "").trim();
         const token = req.session.Payload;
-      
+      console.log("tokem" ,token);
         if (!token) {
             return res.status(400).json({
                 success: false,
