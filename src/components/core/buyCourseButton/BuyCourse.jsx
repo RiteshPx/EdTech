@@ -60,7 +60,7 @@ export const BuyCourse = ({ courseID }) => {
                 theme: {
                     color: "#3399cc", // Customize Razorpay theme color
                 },
-                // callback_url: "http://localhost:3000", // Redirect to this URL
+                callback_url: "https://edtech-h1p6.onrender.com/EnrollmentSuccess", // Redirect to this URL
             };
 
             const razorpayInstance = new window.Razorpay(options);

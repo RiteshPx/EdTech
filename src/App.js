@@ -50,10 +50,10 @@ function App() {
           </StudentPrivateRouter>} />
 
           <Route path='/EnrollmentSuccess' element={
-          <StudentPrivateRouter>
+          // <StudentPrivateRouter>
             <EnrollmentSuccess />
-          </StudentPrivateRouter>} />
-
+          // </StudentPrivateRouter> 
+          }/>
         <Route path='/Instructor' element={
           <InstructorPrivateRouter>
             <InstructorHomePage />

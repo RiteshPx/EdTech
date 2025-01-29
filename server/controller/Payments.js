@@ -99,16 +99,15 @@ exports.capturePayment = async (req, res) => {
 // verify signature of razorpay and server 
 exports.verifySignature = async (req, res) => {
     try {
-  console.log(req.body)
+  console.log("Veroft:",req.body)
 
         const secret = process.env.RAZORPAY_WEBHOOK_SECRET;
         const shasum = crypto.createHmac("sha256", secret);
         shasum.update(JSON.stringify(req.body));
         const digest = shasum.digest("hex");
 
-// console.log("Generated digest:", digest);
-// console.log("Received signature:", req.headers["x-razorpay-signature"]);
-// console.log("Received signature:", req.headers['x-razorpay-signature']);
+console.log("Generated digest:--", digest);
+console.log("Received signature--:", req.headers['x-razorpay-signature']);
 
         if (digest === req.headers["x-razorpay-signature"]) {
             console.log('payment is sucessfully');
@@ -122,6 +121,7 @@ exports.verifySignature = async (req, res) => {
         //fetch data 
         const { courseId, userId } = req.body.payload.payment.entity.notes;   //beacuse this send from razorpay ,not any user so we can't eject from user(cookie)
 
+        console.log("data:-",courseId,userId);
         //update courseDetail with enroll student
         const enrollCourse = await Course.findByIdAndUpdate({ courseId },
             {
