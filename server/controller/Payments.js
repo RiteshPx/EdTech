@@ -132,21 +132,19 @@ exports.verifySignature = async (req, res) => {
                 }
             }, { new: true },
         );
-        console.log("in erollcourse",enrollCourse);
-        if (!enrollStudent) {
+        if (!enrollCourse) {
             return res.status(401).json({ message: 'course not found' })
         }
         //update userDetail with inject courseId
         const enrollStudent = await User.findByIdAndUpdate( userId,
             {
                 $push: {
-                    enrollCourses: courseId,
+                    enrollCourses: courseId, 
                 }
             }, { new: true },
-        )
-        console.log("in erollcourse 1",enrollStudent);
+        );
 
-        if (!enrollCourse) {
+        if (!enrollStudent) {
             return res.status(402).json({ message: 'User not found' })
         }
 
