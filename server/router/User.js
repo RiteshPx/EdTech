@@ -29,7 +29,7 @@ router.post('/login', login);
 //router for signup user 
 router.post('/signup', signUp);
 
-router.post('/logout',logout);
+router.post('/logout',auth,logout);
 //router for resetpassword
 router.post('/changePassword', auth, changePassword);
 

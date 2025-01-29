@@ -31,8 +31,7 @@ app.use(session({
       ttl: 1 * 24 * 60 * 60, // Session expiry time (1 day)
   }),
   cookie: { 
-    secure: true
-    // process.env.NODE_ENV === 'production', 
+    secure:  process.env. === 'production', 
   }  // Set `true` in production with HTTPS
 }));
 
@@ -41,7 +40,7 @@ app.use(cors({
   credentials: true,
 }));
 
-app.use(fileUpload({
+app.use(fileUpload({NODE_ENV
   limits: { fileSize: 10 * 1024 * 1024 }, // Limit to 10MB
   useTempFiles: true,
   tempFileDir: "./temp",

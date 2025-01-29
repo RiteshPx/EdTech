@@ -222,14 +222,19 @@ exports.login = async (req, res) => {
                 user.token = token;
                 user.password = undefined;
 
+
                 //set cookie
-                const options = {
-                    expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // Cookie expires in 7 days
-                    httpOnly: true,
-                    secure: true,   // Set to true for production (HTTPS), false for development (HTTP)
-                    sameSite: 'None',   // Optional, but it prevents sending cookies with cross-site requests
-                }
-                res.cookie("token", token, options).status(200).json({
+                // const options = {
+                //     expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // Cookie expires in 7 days
+                //     httpOnly: true,
+                //     secure: true,   // Set to true for production (HTTPS), false for development (HTTP)
+                //     sameSite: 'None',   // Optional, but it prevents sending cookies with cross-site requests
+                // }
+
+                req.session.Payload = token;
+                req.session.save();  // Forces the session to be saved
+
+                res.status(200).json({
                     success: true,
                     message: 'Logged in successfully',
                     user,
@@ -273,7 +278,7 @@ exports.changePassword = async (req, res) => {
         }
 
         //extract the user from token
-        const token = req.cookies.token          // also fetch from "req.user" by middleware logic
+        const token = req.session.token          // also fetch from "req.user" by middleware logic
 
         const decoded = jwt.verify(token, process.env.JWT_SECRET);  // Decode the token using JWT_SECRET
 
@@ -317,11 +322,9 @@ exports.changePassword = async (req, res) => {
 
 //get user by cookie
 exports.isLogin = async (req, res) => {
-    const token = req.cookies.token;
-
+    const token = req.session.Payload;
     if (token) {
         const decoded = jwt.verify(token, process.env.JWT_SECRET);  // Decode the token using JWT_SECRET
-        console.log("Decoded token:", decoded);
         const email = decoded.email;
 
         const user = await User.findOne({ email })
@@ -346,11 +349,12 @@ exports.isLogin = async (req, res) => {
 // logout 
 exports.logout = async (req, res) => {
     try {
-        res.clearCookie('token', {
-            httpOnly: true, // Ensures the cookie is only accessible by the server
-            secure: true,   // Use 'true' if you're using HTTPS
-            sameSite: 'None',
-        });
+        req.session.destroy();
+        // res.clearCookie('token', {
+        //     httpOnly: true, // Ensures the cookie is only accessible by the server
+        //     secure: true,   // Use 'true' if you're using HTTPS
+        //     sameSite: 'None',
+        // });
         res.status(200).json({ message: 'Logged out successfully.' });
     }
     catch (err) {
