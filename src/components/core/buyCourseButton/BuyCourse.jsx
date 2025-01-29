@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import AuthContext from "../../../Context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { capturePayment, verifySignature } from "../../../api/paymentApi";
+import { capturePayment, verifyPaymentApi } from "../../../api/paymentApi";
 
 export const BuyCourse = ({ courseID }) => {
     const { isAuthenticated } = useContext(AuthContext);
@@ -44,7 +44,7 @@ export const BuyCourse = ({ courseID }) => {
                 order_id: data.orderId, // Razorpay order ID from backend
                 handler: async function (response) {
                     // Step 3: Verify payment signature on the backend
-                    const verifyResponse = await verifySignature(response);
+                    const verifyResponse = await verifyPaymentApi(response);
                      console.log(response);
                     if (verifyResponse.data.success) {
                         alert("Payment successful and course enrolled!");
@@ -79,6 +79,7 @@ export const BuyCourse = ({ courseID }) => {
     return (
         <button
             onClick={buyHandle}
+            id="rzp-button1"
             className="bg-gradient-to-r from-blue-500 to-blue-700 hover:from-blue-600 hover:to-blue-800 text-white font-semibold py-2 px-6 rounded-lg shadow-md transition-transform transform hover:scale-105"
         >
             Buy Now

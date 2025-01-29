@@ -13,7 +13,12 @@ export const capturePayment = async (courseID) => {
     return API.post('/capturePayment',courseID);
 }
 
+//bY webHook 
+// export const verifySignature = async (response) => {
+//     return API.post('/verifySignature',response);
+// }
 
-export const verifySignature = async (response) => {
-    return API.post('/verifySignature',response);
+//  verifyPayment
+export const verifyPaymentApi = async (response) => {
+    return API.post('/verifyPayment',response);
 }
