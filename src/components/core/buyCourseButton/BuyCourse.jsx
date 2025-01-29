@@ -7,7 +7,13 @@ import { capturePayment, verifyPaymentApi } from "../../../api/paymentApi";
 export const BuyCourse = ({ courseID }) => {
     const { isAuthenticated } = useContext(AuthContext);
     const navigate = useNavigate();
-
+    useEffect(() => {
+        const script = document.createElement("script");
+        script.src = "https://checkout.razorpay.com/v1/checkout.js";
+        script.async = true;
+        document.body.appendChild(script);
+    }, []);
+    
     const buyHandle = async () => {
         try {
             // Check if the user is authenticated
@@ -47,7 +53,8 @@ export const BuyCourse = ({ courseID }) => {
                     const verifyResponse = await verifyPaymentApi(response);
                      console.log(response);
                     if (verifyResponse.data.success) {
-                        alert("Payment successful and course enrolled!");
+                        toast.success("Payment successful! Course enrolled.");
+                                                navigate("/EnrollmentSuccess");
                     } else {
                         alert("Payment verification failed!");
                     }

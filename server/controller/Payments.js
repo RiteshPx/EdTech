@@ -125,26 +125,29 @@ exports.verifySignature = async (req, res) => {
 
         console.log("data:-", courseId, userId);
         //update courseDetail with enroll student
-        const enrollCourse = await Course.findByIdAndUpdate({ courseId },
+        const enrollCourse = await Course.findByIdAndUpdate( courseId ,
             {
                 $push: {
                     enrollStudents: userId,
                 }
             }, { new: true },
         );
+        console.log("in erollcourse",enrollCourse);
         if (!enrollStudent) {
-            return res.status(400).json({ message: 'course not found' })
+            return res.status(401).json({ message: 'course not found' })
         }
         //update userDetail with inject courseId
-        const enrollStudent = await User.findByIdAndUpdate({ userId },
+        const enrollStudent = await User.findByIdAndUpdate( userId,
             {
                 $push: {
                     enrollCourses: courseId,
                 }
             }, { new: true },
         )
+        console.log("in erollcourse 1",enrollStudent);
+
         if (!enrollCourse) {
-            return res.status(400).json({ message: 'User not found' })
+            return res.status(402).json({ message: 'User not found' })
         }
 
         //send mail to congrulation of onboard
@@ -159,7 +162,7 @@ exports.verifySignature = async (req, res) => {
         })
     }
     catch (e) {
-        return res.status(400).json({
+        return res.status(403).json({
             success: false,
             message: "enable to  enrolled "
         })
