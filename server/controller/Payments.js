@@ -99,22 +99,16 @@ exports.capturePayment = async (req, res) => {
 // verify signature of razorpay and server (webhook )
 exports.verifySignature = async (req, res) => {
     try {
-        console.log("Verift:--", req.body);
-        console.log("Received signature--:", req.headers['x-razorpay-signature']);
+            console.log("Received signature--:", req.headers['x-razorpay-signature']);
         const razorpaySignature = req.headers["x-razorpay-signature"];
-        const secret = process.env.RAZORPAY_WEBHOOK_SECRET;
-        console.log("secret - ", secret)
+        const secret = process.env.RAZORPAY_WEBHOOK_SECRET;  
 
         const hmac = crypto.createHmac("sha256", secret);
 
-        console.log("update ", hmac)
-
         hmac.update(JSON.stringify(req.body));
        
-        console.log("update 1 -", shasum)
-
-        const digest = shasum.digest("hex");
-
+        const digest = hmac.digest("hex");
+        console.log("update ", hmac)
         console.log("Generated digest:--", digest);
 
         if (digest === razorpaySignature) {
