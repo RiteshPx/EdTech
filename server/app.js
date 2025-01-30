@@ -17,17 +17,20 @@ const connectCloudinary = require('./config/cloudinary');
 // Load environment variables
 require('dotenv').config();
 const app = express();
+//---------------------------------------------------------------------------------------
+// Correct path to the build directory (relative to server.js)
+const buildPath = path.join(__dirname, '..', 'build'); // Go up one level from 'server' to 'EDTECH', then to 'build'
 
-// Serve static files from the React app build directory
-// The path is crucial here!  Go up one level from 'server' to the 'frontend' folder, then to 'build'
-app.use(express.static(path.join(__dirname, '..', 'build'))); //  <--- Correct path
+console.log("Build Path:", buildPath); // VERY IMPORTANT for debugging
+
+app.use(express.static(buildPath)); // Serve static files from the 'build' directory
 
 
-// The "catchall" handler to send index.html on any other request
+// Catch-all route to serve index.html
 app.get('/*', (req, res) => {
-  res.sendFile(path.join(__dirname, '..', 'build', 'index.html')); // <--- Correct path
+  res.sendFile(path.join(buildPath, 'index.html'));
 });
-
+//-------------------------------------------------------------------------------------------
 
 // Middleware
 app.use(express.json());
