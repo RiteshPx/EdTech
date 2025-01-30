@@ -11,6 +11,7 @@ const EnrollmentSuccess = () => {
     const id = user.enrollCourses?.at[-1];
     const dispatch = useDispatch();
     const { MyCourse } = useSelector((state) => state); // Access state using useSelector
+    console.log("redux",MyCourse);
 
     useEffect(() => {
         try {

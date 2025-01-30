@@ -3,7 +3,7 @@ const cors = require('cors');                                       //..for ente
 const fileUpload = require('express-fileupload');
 const session = require("express-session");
 const MongoStore = require("connect-mongo");
-// const path = require("path");
+const path = require("path");
 
 var courseRouter = require('./router/Course');
 var profileRouter = require('./router/Profile')
@@ -17,6 +17,17 @@ const connectCloudinary = require('./config/cloudinary');
 // Load environment variables
 require('dotenv').config();
 const app = express();
+
+// Serve static files from the React app build directory
+// The path is crucial here!  Go up one level from 'server' to the 'frontend' folder, then to 'build'
+app.use(express.static(path.join(__dirname, '..', 'build'))); //  <--- Correct path
+
+
+// The "catchall" handler to send index.html on any other request
+app.get('/*', (req, res) => {
+  res.sendFile(path.join(__dirname, '..', 'build', 'index.html')); // <--- Correct path
+});
+
 
 // Middleware
 app.use(express.json());
