@@ -63,14 +63,18 @@ app.use('/api/v1/payment', paymentRouter);
 app.use('/api/v1/course', courseRouter);
 
 // ✅ **Now, Move Static Serving & Catch-All Route to the End**
-const buildPath = path.resolve(__dirname, '..', 'build');
+const buildPath = path.join(__dirname,  'build');
 console.log("Build Path:", buildPath);
 
 app.use(express.static(buildPath)); // Serve React files
 
 // 🔥 Catch-All Route (Must Be Below All Other Routes)
 app.get('*', (req, res) => {
-  res.sendFile(path.join(buildPath, 'index.html'));
+  res.sendFile(path.join(buildPath, 'index.html'), function (err) {
+    if (err) {
+      res.status(500).send(err);
+    }
+  });
 });
 
 // Error handling middleware
