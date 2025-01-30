@@ -1,42 +1,34 @@
 const express = require('express');
-const cors = require('cors');                                       //..for entertain frontend
+const cors = require('cors');
 const fileUpload = require('express-fileupload');
 const session = require("express-session");
 const MongoStore = require("connect-mongo");
 const path = require("path");
+require('dotenv').config();
 
+const app = express();
+
+// Import routes
 var courseRouter = require('./router/Course');
-var profileRouter = require('./router/Profile')
-var userRouter = require('./router/User')
-var paymentRouter = require('./router/Payment')
-  
+var profileRouter = require('./router/Profile');
+var userRouter = require('./router/User');
+var paymentRouter = require('./router/Payment');
+
 // Config imports
 const connectDB = require("./config/mongoose");
 const connectCloudinary = require('./config/cloudinary');
-
-// Load environment variables
-require('dotenv').config();
-const app = express();
-//---------------------------------------------------------------------------------------
-// Correct path to the build directory (relative to server.js)
-// const buildPath = path.join(__dirname, '..', 'build'); // Go up one level from 'server' to 'EDTECH', then to 'build'
-const buildPath = path.resolve(__dirname, '..', 'build');
-
-console.log("Build Path:", buildPath); // VERY IMPORTANT for debugging
-
-app.use(express.static(buildPath)); // Serve static files from the 'build' directory
-
-
-// Catch-all route to serve index.html
-app.get('*', (req, res) => {
-  res.sendFile(path.join(buildPath, 'index.html'));
-});
-//-------------------------------------------------------------------------------------------
 
 // Middleware
 app.use(express.json());
 app.set('trust proxy', 1);
 
+// CORS Setup
+app.use(cors({
+  origin: process.env.CLIENT_URL,
+  credentials: true,
+}));
+
+// Session Setup
 app.use(session({
   secret: process.env.SESSION_SECRET,
   resave: false,
@@ -46,39 +38,39 @@ app.use(session({
       ttl: 1 * 24 * 60 * 60, // Session expiry time (1 day)
   }),
   cookie: { 
-    maxAge: 1000 * 60 * 60 * 24 * 1, // 1 days
+    maxAge: 1000 * 60 * 60 * 24 * 1, // 1 day
     secure: process.env.NODE_ENV === 'production', 
     httpOnly: true,
     sameSite: 'None',
   }  
 }));
 
-app.use(cors({
-  origin: process.env.CLIENT_URL,
-  credentials: true,
-}));
-
+// File Upload
 app.use(fileUpload({
-  limits: { fileSize: 10 * 1024 * 1024 }, // Limit to 10MB
+  limits: { fileSize: 10 * 1024 * 1024 }, // 10MB
   useTempFiles: true,
   tempFileDir: "./temp",
-   // Ensure temporary files are created for uploads
 }));
 
 // Database Connection
 connectDB();
 connectCloudinary();
 
-// router mounting
+// 🚀 API Routes
 app.use('/api/v1/auth', userRouter);
 app.use('/api/v1/profile', profileRouter);
 app.use('/api/v1/payment', paymentRouter);
 app.use('/api/v1/course', courseRouter);
 
+// ✅ **Now, Move Static Serving & Catch-All Route to the End**
+const buildPath = path.resolve(__dirname, '..', 'build');
+console.log("Build Path:", buildPath);
 
-// Routes (example route setup)
-app.get('/', (req, res) => {
-  res.status(200).json({ message: 'Server is running' });
+app.use(express.static(buildPath)); // Serve React files
+
+// 🔥 Catch-All Route (Must Be Below All Other Routes)
+app.get('*', (req, res) => {
+  res.sendFile(path.join(buildPath, 'index.html'));
 });
 
 // Error handling middleware
@@ -87,11 +79,10 @@ app.use((err, req, res, next) => {
   res.status(500).json({ error: 'Something went wrong' });
 });
 
-// Server listening
+// Server Listening
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
 
-module.exports = app;                        
-
+module.exports = app;
