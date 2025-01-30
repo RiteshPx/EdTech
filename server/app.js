@@ -63,7 +63,7 @@ app.use('/api/v1/payment', paymentRouter);
 app.use('/api/v1/course', courseRouter);
 
 // ✅ **Now, Move Static Serving & Catch-All Route to the End**
-const buildPath = path.join(__dirname,  'build');
+const buildPath = path.join(__dirname, '..' , 'build');
 console.log("Build Path:", buildPath);
 
 app.use(express.static(buildPath)); // Serve React files
