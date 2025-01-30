@@ -45,10 +45,10 @@ export const BuyCourse = ({ courseID }) => {
                 handler: async function (response) {
                     // Step 3: Verify payment signature on the backend
                     const verifyResponse = await verifyPaymentApi(response);
-                    console.log(response);
+                    console.log("verifyresponse--",verifyResponse);
                     if (verifyResponse.data.success) {
                         toast.success("Payment successful! Course enrolled.");
-                        navigate("/EnrollmentSuccess");
+                        // navigate("/EnrollmentSuccess");
                     } else {
                         alert("Payment verification failed!");
                     }

@@ -11,7 +11,7 @@ exports.capturePayment = async (req, res) => {
     try {
         //fetch 
         const { courseID } = req.body;
-        console.log("Received courseID:", courseID);
+        console.log("Received courseID for capture paymetn-:", courseID);
 
         // Validate courseID
         if (!courseID) {

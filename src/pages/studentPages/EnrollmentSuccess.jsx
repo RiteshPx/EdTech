@@ -8,13 +8,13 @@ import { toast } from 'react-toastify';
 
 const EnrollmentSuccess = () => {
     const { user } = useContext(AuthContext);
-    const id = user.enrollCourses.at[-1];
+    const id = user.enrollCourses?.at[-1];
     const dispatch = useDispatch();
     const { MyCourse } = useSelector((state) => state); // Access state using useSelector
 
     useEffect(() => {
         try {
-            if (MyCourse?.at[-1]._id === id) {
+            if (MyCourse.length > 0 && MyCourse.at(-1)?._id === id) {
                 return;
             }
             const payload = {
