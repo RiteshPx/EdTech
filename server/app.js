@@ -19,7 +19,8 @@ require('dotenv').config();
 const app = express();
 //---------------------------------------------------------------------------------------
 // Correct path to the build directory (relative to server.js)
-const buildPath = path.join(__dirname, '..', 'build'); // Go up one level from 'server' to 'EDTECH', then to 'build'
+// const buildPath = path.join(__dirname, '..', 'build'); // Go up one level from 'server' to 'EDTECH', then to 'build'
+const buildPath = path.resolve(__dirname, '..', 'build');
 
 console.log("Build Path:", buildPath); // VERY IMPORTANT for debugging
 
@@ -27,7 +28,7 @@ app.use(express.static(buildPath)); // Serve static files from the 'build' direc
 
 
 // Catch-all route to serve index.html
-app.get('/*', (req, res) => {
+app.get('*', (req, res) => {
   res.sendFile(path.join(buildPath, 'index.html'));
 });
 //-------------------------------------------------------------------------------------------
