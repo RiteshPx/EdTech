@@ -31,23 +31,23 @@ export default function InstructorHomePage() {
   }
 
   return (
-    <div className="flex h-full">
+    <div className="flex h-screen ">
       {/* Sidebar */}
-      <div className="bg-primary h-1/4 w-1/6 p-4 sticky top-0  ">
+      <div className="bg-primay rounded-3xl h-full w-1/6 p-4 sticky top-0 flex flex-col  items-center border-8  border-secondary">
         <img
           src={Logo}
           alt="Logo"
-          className="h-2/4 w-2/5 object-contain"
+          className="h-16 w-16 object-contain mb-8"
         />
-        <ul className="mt-6 text-white space-y-4">
+        <ul className="text-white space-y-4 w-full">
           {menuItems.map((item) => (
             <li
               key={item}
               onClick={() => handleSelection(item)} // Handle item selection
-              className={`cursor-pointer p-2 rounded ${
+              className={`cursor-pointer p-3 rounded text-center ${
                 selectedItem === item
                   ? 'bg-white text-green-500 font-bold'
-                  : ''
+                  : 'hover:bg-gray-200'
               }`}
             >
               {item}
@@ -57,7 +57,7 @@ export default function InstructorHomePage() {
       </div>
   
       {/* Main Content */}
-      <div className="flex-grow overflow-y-auto">
+      <div className="flex-grow overflow-y-auto p-2 w-11/12">
         <Header user={user} />
         {selectedItem === 'Dashboard' && <Dashboard user={user}/>}
         {selectedItem === 'Profile' && <UserProfile user={user}/>}
@@ -65,7 +65,11 @@ export default function InstructorHomePage() {
         {selectedItem === 'Create Course' && <CreateCoursePage/>}
         {selectedItem === 'Draft Courses' && <DraftCourses user={user}/>}
        
-
+        <footer className="bg-secondary text-black py-2 rounded-b-md px-2 sticky bottom-0">
+                    <p className="text-center font-semibold">
+                        &copy; {new Date().getFullYear()} EdTech Platform. All rights reserved.
+                    </p>
+                </footer>
       </div>
     </div>
   );

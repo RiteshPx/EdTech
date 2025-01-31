@@ -75,10 +75,10 @@ const CreateCoursePage = () => {
     };
 
     return (
-        <div className="flex justify-center   items-center h-full bg-white">
+        <div className="flex justify-center   items-center h-11/12 bg-white">
             {!sectionModal &&
-                <div className="w-full max-w-4xl bg-gray-400 p-7 text rounded-lg shadow-lg">
-                    <h2 className="text-2xl font-bold mb-5 text-center">Create a New Course</h2>
+                <div className="w-full max-w-4xl bg-gray-400 p-6 m-2 text rounded-lg shadow-lg">
+                    <h2 className="text-2xl font-bold text-center">Create a New Course</h2>
                     <form onSubmit={handleSubmit} className="space-y-2">
                         <div>
                             <label className="block text-sm font-medium text-white-700">Course Name</label>
@@ -95,14 +95,15 @@ const CreateCoursePage = () => {
 
                         <div>
                             <label className="block text-sm font-medium text-white-700">Course Description</label>
-                            <textarea
+                            <input
+                            type="text"
                                 name="courseDescription"
                                 value={formData.courseDescription}
                                 onChange={handleChange}
                                 placeholder="Enter course description"
                                 className="mt-1 block w-full px-4 py-2 border rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
                                 required
-                            ></textarea>
+                            ></input>
                         </div>
 
                         <div>

@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import Logo from "../../assets/images/logo.png"
+import Logo from "../../assets/images/logo.png";
 import Header from '../../components/core/studentHomePage/Header';
 import Dashboard from './Dashboard';
 import AuthContext from '../../Context/AuthContext';
@@ -15,9 +15,7 @@ export default function StudentHomePage() {
   const menuItems = [
     'Dashboard',
     'Course',
-    'Resources',
-    'Chat',
-    'Schedule',
+        'Chat',
     'Profile',
     'Setting',
   ];
@@ -31,23 +29,23 @@ export default function StudentHomePage() {
   }
 
   return (
-    <div className="flex h-screen">
+    <div className="flex h-screen bg-gray-600">
       {/* Sidebar */}
-      <div className="bg-primary h-1/4 w-1/6 p-4 sticky top-0  ">
+      <div className="bg-primay rounded-3xl h-full w-1/6 p-4 sticky top-0 flex flex-col  items-center border-8  border-secondary">
         <img
           src={Logo}
           alt="Logo"
-          className="h-2/4 w-2/5 object-contain"
+          className="h-16 w-16 object-contain mb-8"
         />
-        <ul className="mt-6 text-white space-y-4">
+        <ul className="text-white space-y-4 w-full">
           {menuItems.map((item) => (
             <li
               key={item}
               onClick={() => handleSelection(item)} // Handle item selection
-              className={`cursor-pointer p-2 rounded ${
+              className={`cursor-pointer p-3 rounded text-center ${
                 selectedItem === item
                   ? 'bg-white text-green-500 font-bold'
-                  : ''
+                  : 'hover:bg-gray-200'
               }`}
             >
               {item}
@@ -57,13 +55,20 @@ export default function StudentHomePage() {
       </div>
   
       {/* Main Content */}
-      <div className="flex-grow overflow-y-auto">
+      <div className="flex-grow overflow-y-auto p-2 w-11/12">
         <Header user={user} />
-        {selectedItem === 'Dashboard' && <Dashboard user={user}/>}
-        {selectedItem === 'Course' && <Courses user={user}/>}
-        {selectedItem === 'Profile' && <UserProfile user={user}/>}
-        {selectedItem === 'Setting' && <UserSetting user={user} handleSelection={handleSelection}/>}
+        {selectedItem === 'Dashboard' && <Dashboard user={user} />}
+        {selectedItem === 'Course' && <Courses user={user} />}
+        {selectedItem === 'Profile' && <UserProfile user={user} />}
+        {selectedItem === 'Setting' && <UserSetting user={user} handleSelection={handleSelection} />}
+           {/* Footer */}
+           <footer className="bg-secondary text-black py-3 rounded-b-md px-4 sticky bottom-0">
+                    <p className="text-center">
+                        &copy; {new Date().getFullYear()} EdTech Platform. All rights reserved.
+                    </p>
+                </footer>
       </div>
+
     </div>
   );
-}  
+}

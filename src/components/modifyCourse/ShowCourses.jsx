@@ -22,12 +22,12 @@ export const ShowCourses = ({ course, setEditModal, setSelectedCourse }) => {
         }
     }
     return (<>
-        <div className="bg-white rounded-lg shadow-lg p-6 hover:shadow-xl  transition-shadow duration-300">
+        <div className="bg-white rounded-lg shadow-lg p-4 hover:shadow-xl  transition-shadow duration-300">
             {/* Course Thumbnail */}
             <img
                 src={course.thumbnails}
                 alt={course.name}
-                className="w-full h-80 object-cover rounded-t-lg mb-4"
+                className="w-full h-64 object-cover rounded-t-lg mb-4"
             />
 
             {/* Course Details */}

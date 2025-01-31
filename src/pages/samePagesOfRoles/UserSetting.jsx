@@ -11,7 +11,7 @@ export const UserSetting = ({ user, handleSelection }) => {
     const { logout } = useContext(AuthContext);
 
     return (
-        <div className="min-h-screen  bg-gray-100 flex flex-col items-center p-6">
+        <div className="h-5/6  bg-gray-100 flex flex-col items-center p-6">
             <div className="w-full max-w-md bg-white rounded shadow-lg p-6">
                 <h1 className="text-2xl font-bold text-gray-800 mb-4">Settings</h1>
 

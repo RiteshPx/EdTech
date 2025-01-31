@@ -33,7 +33,7 @@ export const UserProfile = ({ user}) => {
     };
 
     return (
-        <div className="min-h-screen bg-gray-100 flex justify-center items-center p-6">
+        <div className="h-5/6 bg-gray-100 flex justify-center items-center p-6">
             <div className="bg-white shadow-lg rounded-lg max-w-md w-full">
                 <div className="p-6 flex flex-col items-center">
                     <img
