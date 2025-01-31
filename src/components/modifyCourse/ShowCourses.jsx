@@ -14,7 +14,7 @@ export const ShowCourses = ({ course, setEditModal, setSelectedCourse }) => {
             setSelectedCourse(data.courseDetail);
             setEditModal(true);
         } catch (error) {
-             console.log(error);
+             console.log(error);    
                         const errorMessage =
                             error.response?.data?.message ||
                             "An unexpected error occurred. Please try again.";

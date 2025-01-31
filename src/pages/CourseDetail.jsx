@@ -15,8 +15,8 @@ function CourseDetails() {
         async function fetchData() {
             try {
                 const response = await getCourseDetails(payload);
-                console.log(response.data.data);
-                setCourse(response.data.data);
+                console.log(response);
+                setCourse(response.data.courseDetail);
             } catch (e) {
                 console.log("Error fetching course details:", e.response?.data || e.message);
             }

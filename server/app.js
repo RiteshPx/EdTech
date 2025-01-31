@@ -68,7 +68,7 @@ console.log("Build Path:", buildPath);
 
 app.use(express.static(buildPath)); // Serve React files
 
-// 🔥 Catch-All Route (Must Be Below All Other Routes)
+// Catch-All Route (Must Be Below All Other Routes)   // not working 
 app.get('*', (req, res) => {
   res.sendFile(path.join(buildPath, 'index.html'), function (err) {
     if (err) {

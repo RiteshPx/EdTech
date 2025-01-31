@@ -20,12 +20,13 @@ const AllCourses = () => {
     }
 
     return (
-        <div className='bg-slate-500'>
+        <div className='bg-white'>
             {!isAuthenticated && 
-                <nav className="text-base text-gray-400">
-                <a href="/" className="hover:text-white">Home</a> &gt;
-                <span className="text-white">All Courses</span>
-            </nav>
+              <nav className="text-base pt-4 ml-7 text-gray-400 flex items-center space-x-2">
+              <a href="/" className="hover:text-blue-400 transition-colors duration-200">Home</a>
+              <span className="text-gray-500">›</span>
+              <span className="text-gray-800 font-medium">All Courses</span>
+          </nav>
             }
             <div className='grid grid-cols-1 md:grid-cols-2 bg-white lg:grid-cols-3 gap-4'>
                 {
