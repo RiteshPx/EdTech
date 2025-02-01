@@ -48,3 +48,19 @@ export const createSubSectionApi= async(payload)=>{
 export const publishCourseApi= async(payload)=>{
     return API.post('/publishCourse',payload);
 }
+
+
+//createRatingAndReview
+export const createRatingAndReviewApi= async(payload)=>{
+    return API.post('/createRating',payload);
+}
+
+//getAllRatingAndReview
+export const getAllRatingAndReviewApi= async()=>{
+    return API.get('/getAllRatingAndReview');
+}
+//averageRatingAndReview
+export const averageRatingAndReviewApi= async()=>{
+    return API.get('/averageRatingAndReview');
+}
+

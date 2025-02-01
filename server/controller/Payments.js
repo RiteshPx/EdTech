@@ -5,6 +5,7 @@ const User = require('../models/User');
 const mailSender = require('../utils/mailSender');
 require('dotenv').config();
 const crypto = require('crypto');
+const CourseProgress = require('../models/CourseProgress');
 
 //capture the payment and initiate the razorpay order
 exports.capturePayment = async (req, res) => {
@@ -99,14 +100,14 @@ exports.capturePayment = async (req, res) => {
 // verify signature of razorpay and server (webhook )
 exports.verifySignature = async (req, res) => {
     try {
-            console.log("Received signature--:", req.headers['x-razorpay-signature']);
+        console.log("Received signature--:", req.headers['x-razorpay-signature']);
         const razorpaySignature = req.headers["x-razorpay-signature"];
-        const secret = process.env.RAZORPAY_WEBHOOK_SECRET;  
+        const secret = process.env.RAZORPAY_WEBHOOK_SECRET;
 
         const hmac = crypto.createHmac("sha256", secret);
 
         hmac.update(JSON.stringify(req.body));
-       
+
         const digest = hmac.digest("hex");
         console.log("update ", hmac)
         console.log("Generated digest:--", digest);
@@ -125,7 +126,7 @@ exports.verifySignature = async (req, res) => {
 
         console.log("data:-", courseId, userId);
         //update courseDetail with enroll student
-        const enrollCourse = await Course.findByIdAndUpdate( courseId ,
+        const enrollCourse = await Course.findByIdAndUpdate(courseId,
             {
                 $push: {
                     enrollStudents: userId,
@@ -135,13 +136,15 @@ exports.verifySignature = async (req, res) => {
         if (!enrollCourse) {
             return res.status(401).json({ message: 'course not found' })
         }
+       
         //update userDetail with inject courseId
-        const enrollStudent = await User.findByIdAndUpdate( userId,
+        const enrollStudent = await User.findByIdAndUpdate(userId,
             {
                 $push: {
-                    enrollCourses: courseId, 
+                    enrollCourses: courseId,
                 }
-            }, { new: true },
+            },
+            { new: true }
         );
 
         if (!enrollStudent) {
@@ -172,7 +175,7 @@ exports.verifyPayment = async (req, res) => {
     try {
         const { razorpay_order_id, razorpay_payment_id, razorpay_signature } = req.body;
         const secret = process.env.RAZORPAY_SECRET;
-console.log("verify paymnet in" , req.body)
+        console.log("verify paymnet in", req.body)
 
         // Generate HMAC SHA-256 hash
         const hmac = crypto.createHmac("sha256", secret);

@@ -1,33 +1,12 @@
 import React, { useEffect, useState } from "react";
 import VideoPlayer from "./VideoPlayer";
 import { getCourseDetails } from "../../../api/courseApi";
-
-// const courseData = [
-//   {
-//     title: "Web Development Course",
-//     sections: [
-//       {
-//         title: "HTML & CSS Basics",
-//         subsections: [
-//           { title: "Introduction to HTML", videoUrl: "/videos/html.mp4" },
-//           { title: "Introduction to CSS", videoUrl: "/videos/css.mp4" },
-//         ],
-//       },
-//       {
-//         title: "JavaScript Fundamentals",
-//         subsections: [
-//           { title: "Variables & Data Types", videoUrl: "/videos/js1.mp4" },
-//           { title: "Functions in JavaScript", videoUrl: "/videos/js2.mp4" },
-//         ],
-//       },
-//     ],
-//   },
-// ];
+import FeedbackForm from "../../FeedbackPages/CreateFeedback";
 
 const CourseList = ({courseId}) => {
   const [ courseData,setCourseData] =useState('');
-  const [currentVideo, setCurrentVideo] = useState(null);
-  const [currentTitle, setCurrentTitle] = useState("");
+  const [currentVideo, setCurrentVideo] = useState("");
+  const [currentTitle, setCurrentTitle] = useState(null);
 
 useEffect(()=>{
   const fetchDataCourse=async()=>{
@@ -38,17 +17,18 @@ useEffect(()=>{
       const {data} = await getCourseDetails(payload);
       console.log(data.courseDetail);
       setCourseData(data.courseDetail);
-      setCurrentVideo(courseData?.courseContent[0]?.subSection[0]?.videoUrl);
-      setCurrentTitle(courseData?.courseContent[0]?.subSection[0]?.title)
     }
     catch(error){
       console.error("Error fetching course details:", error);
     }
   }
   fetchDataCourse();
+  setCurrentVideo(courseData?.thumbnails);
+
 },[courseId])
 
   return (
+    <div>
     <div className="flex p-4">
       {/* Sidebar: Course Sections */}
       <div className="w-1/3 bg-gray-100 p-4 rounded-lg shadow-lg">
@@ -79,9 +59,11 @@ useEffect(()=>{
         {currentVideo ? (
           <VideoPlayer videoUrl={currentVideo} title={currentTitle} />
         ) : (
-          <p className="text-red-500">Select a lesson to start learning.</p>
+          <p className="text-blue-500 w-1/3 bg-gray-100 p-4 rounded-lg shadow-lg">Select a lesson to start learning.</p>
         )}
       </div>
+    </div>
+    <FeedbackForm courseId={courseId}/>
     </div>
   );
 };
