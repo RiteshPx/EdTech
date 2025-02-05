@@ -10,7 +10,7 @@ const Login = () => {
         password: '',
     });
     const navigate = useNavigate();
-    const { loading,setIsAuthenticated,setLoading,setUser } = useContext(AuthContext);
+    const { loading, setIsAuthenticated, setLoading, setUser } = useContext(AuthContext);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -22,7 +22,11 @@ const Login = () => {
         try {
             setLoading(true);
             const response = await userlogin(formData);
-            const loginUser= response.data.user;
+            const loginUser = response.data.user;
+
+            // Store JWT token in Local Storage
+            localStorage.setItem("authToken", response.data.token);
+
             setIsAuthenticated(true);
             setLoading(false);
             toast.success('Login Successful!');
@@ -34,8 +38,6 @@ const Login = () => {
             }
             else if (loginUser.accountType === "Instructor") {
                 navigate('/Instructor');
-            } else {
-                navigate('/Admin');
             }
 
         } catch (error) {

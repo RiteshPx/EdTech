@@ -24,7 +24,7 @@ const { auth,isStudent} = require('../middlewares/auth');
 router.get('/isLogin',auth,isLogin); 
 
 //router for login user
-router.post('/login', login);
+router.post('/login',login);
 
 //router for signup user 
 router.post('/signup', signUp);

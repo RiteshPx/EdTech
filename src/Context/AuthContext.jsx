@@ -25,6 +25,7 @@ export const AuthProvider = ({ children }) => {
         })
         .catch(error => {
           // If there's an error (e.g., the cookie is missing or invalid), user is not authenticated
+          console.error('Not authenticated:', error.response?.data || error.message);
           setLoading(false)
           setIsAuthenticated(false);
         });
@@ -35,6 +36,7 @@ export const AuthProvider = ({ children }) => {
   // Logout function
   const logout = async () => {
     try {
+      localStorage.removeItem("authToken"); // Remove token
       setLoading(true);
       await logoutUser()
         .then(res => {

@@ -238,6 +238,7 @@ exports.login = async (req, res) => {
                     success: true,
                     message: 'Logged in successfully',
                     user,
+                    token,
                 })
             }
             else {
@@ -322,10 +323,11 @@ exports.changePassword = async (req, res) => {
 
 //get user by cookie
 exports.isLogin = async (req, res) => {
-    const token = req.session.Payload;
-    if (token) {
-        const decoded = jwt.verify(token, process.env.JWT_SECRET);  // Decode the token using JWT_SECRET
-        const email = decoded.email;
+    const {email} = req.user;  // also fetch from "req.user" by middleware logic
+    
+    if (email) {
+    //     const decoded = jwt.verify(token, process.env.JWT_SECRET);  // Decode the token using JWT_SECRET
+    //     const email = decoded.email;
 
         const user = await User.findOne({ email })
         .populate({ path: 'additionDetails' }) // More verbose, allows options

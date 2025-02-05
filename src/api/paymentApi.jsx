@@ -1,24 +1,15 @@
-import axios from "axios";
-axios.defaults.withCredentials = true;
-
-const Backend_Url = process.env.REACT_APP_API_BASE_URL
-
-
-const API = axios.create({
-    baseURL: `${Backend_Url}/api/v1/payment`,
-    withCredentials: true, // Include cookies in requests
-});
+import axiosInstance from './axiosInstance'
 
 export const capturePayment = async (courseID) => {
-    return API.post('/capturePayment',courseID);
+    return axiosInstance.post('/capturePayment',courseID);
 }
 
 //bY webHook 
 // export const verifySignature = async (response) => {
-//     return API.post('/verifySignature',response);
+//     return axiosInstance.post('/verifySignature',response);
 // }
 
 //  verifyPayment
 export const verifyPaymentApi = async (response) => {
-    return API.post('/verifyPayment',response);
+    return axiosInstance.post('/verifyPayment',response);
 }
