@@ -3,7 +3,7 @@ const Backend_Url = process.env.REACT_APP_API_BASE_URL
 
 // Create Axios instance
 const axiosInstance = axios.create({
-  baseURL: `${Backend_Url}/api/v1/auth`,
+  baseURL: `${Backend_Url}/api/v1/`,
 });
 
 // Add request interceptor to attach JWT token from localStorage

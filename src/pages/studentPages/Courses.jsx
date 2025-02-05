@@ -15,16 +15,16 @@ export const Courses = ({ user }) => {
         <div>
             {
                 !seeCourseDetails ? (
-                    <div className="min-h-screen w-auto bg-gray-100">
+                    <div className="min-h-screen w-auto bg-gray-700">
 
                         {/* Main Content */}
                         <main className="container mx-auto py-8 px-5">
                             {/* Courses Section */}
                             <section className="mb-8">
-                                <h3 className="text-xl font-bold text-gray-700 mb-4">My Enrolled Courses</h3>
+                                <h3 className="text-xl font-bold text-gray-700 text-white mb-4">My Enrolled Courses</h3>
                                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                                     {
-                                        enrollCourses.map((course, index) => (
+                                        enrollCourses?.map((course, index) => (
                                             <div key={index} className="bg-white rounded-lg shadow-md p-4">
                                                 <h4 className="font-bold text-blue-700">{course.courseName}</h4>
                                                 <p className="text-sm text-gray-600">{course.courseDescription}</p>
@@ -44,7 +44,7 @@ export const Courses = ({ user }) => {
 
                             {/* Recommended Section */}
                             <section>
-                                <h3 className="text-xl font-bold text-gray-700 mb-4">Recommended for You</h3>
+                                <h3 className="text-xl font-bold text-gray-100  pt-3 mb-4">Recommended for You</h3>
                                 <AllCourses />
                             </section>
                         </main>

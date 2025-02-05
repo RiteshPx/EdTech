@@ -106,13 +106,24 @@ exports.updateSubSection = async (req, res) => {
 exports.deleteSubSection = async (req, res) => {
     try {
         //fetch from params
-       const subSecId = req.params.subSectionId;        //error in postman
-       console.log("sectionid::",req.params.subSectionId);
+       const {subSectionId} = req.body;        //error in postman
         //delete subsection from section
-        // ============================todo=======================
+        const section = await Section.findOneAndUpdate(
+            { subSection: subSectionId },
+            { $pull: { subSection: subSectionId } },
+            { new: true }
+        ).exec();
+
+        if (!section) {
+            return res.status(404).json({
+            success: false,
+            message: "Section not found"
+            });
+        }
+     
 
         //delete video from cloudinary
-        const uid = new mongoose.Types.ObjectId(subSecId);                  //string to object id
+        const uid = new mongoose.Types.ObjectId(subSectionId);                  //string to object id
         const subSectionDetail= await SubSection.findById({_id: uid });
        
       //validate
@@ -123,7 +134,7 @@ exports.deleteSubSection = async (req, res) => {
         })
       }
            //delete data from cloudinary
-      //  await deleteVideoFromCloudinary(subSectionDetail.videoUrl);   
+    await deleteVideoFromCloudinary(subSectionDetail.videoUrl);
 
         //delete subsection
         await SubSection.findByIdAndDelete({ _id:uid });

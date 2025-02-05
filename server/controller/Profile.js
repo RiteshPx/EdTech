@@ -7,8 +7,7 @@ exports.updateProfile = async (req, res) => {
     try {
         //get data
         const { dateOfBirth = "", gender, contactNumber, about = "" } = req.body;   //nahi mila to empty ("")
-         console.log("cont",req.body);
-         console.log("ddd",contactNumber);
+       
         //get userId
         const userId = req.user.id;
 
@@ -52,7 +51,6 @@ exports.deleteAccount = async (req, res) => {
         //get id of user
         const id = req.user.id;
         const userDetail = await User.findById(id);
-        console.log("here", userDetail)
 
         //validate
         if (!userDetail) {
@@ -62,11 +60,11 @@ exports.deleteAccount = async (req, res) => {
             })
         }
 
-        // unenrolled the student from courses   **************** HW*********
+        // unenrolled the student from courses  
         let allCouresesId = Array.from(userDetail.enrollCourses);  //copy array
         while (allCouresesId.length) {
             let count = allCouresesId.length;
-            const enrollCourse = await Course.findById({ _id: userDetail.courses[count - 1] });
+            const enrollCourse = await Course.findById({ _id: allCouresesId[count - 1] });
             //filter data (remove userid in it)
             enrollCourse.enrollStudents = enrollCourse.enrollStudents.filter(userID => id !== userID);
             allCouresesId.pop();                           //delete last courseId

@@ -1,7 +1,8 @@
 import axiosInstance from './axiosInstance'
 
+//capture payment
 export const capturePayment = async (courseID) => {
-    return axiosInstance.post('/capturePayment',courseID);
+    return axiosInstance.post('/payment/capturePayment',courseID);
 }
 
 //bY webHook 
@@ -11,5 +12,5 @@ export const capturePayment = async (courseID) => {
 
 //  verifyPayment
 export const verifyPaymentApi = async (response) => {
-    return axiosInstance.post('/verifyPayment',response);
+    return axiosInstance.post('/payment/verifyPayment',response);
 }

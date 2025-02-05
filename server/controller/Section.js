@@ -101,7 +101,19 @@ exports.deleteSection = async (req, res) => {
         const { sectionId } = req.params;
 
         //delete sectionId from course first
-         //===============================//at ahead
+        const section = await Section.findById(sectionId);
+        if (!section) {
+            return res.status(404).json({
+            success: false,
+            message: 'Section not found',
+            });
+        }
+
+        const courseId = section.courseId;
+        await Course.findByIdAndUpdate(courseId, {
+            $pull: { courseContent: sectionId }
+        });
+         //
 
         //delete section
         await Section.findByIdAndDelete(sectionId);

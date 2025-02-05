@@ -20,17 +20,17 @@ const AllCourses = () => {
     }
 
     return (
-        <div className='bg-white'>
+        <div className='bg-gray-300 min-h-screen'>
             {!isAuthenticated && 
-              <nav className="text-base pt-4 ml-7 text-gray-400 flex items-center space-x-2">
+              <nav className="text-base pt-4 ml-7 text-gray-400 flex  items-center space-x-2">
               <a href="/" className="hover:text-blue-400 transition-colors duration-200">Home</a>
               <span className="text-gray-500">›</span>
               <span className="text-gray-800 font-medium">All Courses</span>
           </nav>
             }
-            <div className='grid grid-cols-1 md:grid-cols-2 bg-white lg:grid-cols-3 gap-4'>
+            <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 m-3 gap-4'>
                 {
-                    courses.map((course) => (
+                    courses?.map((course) => (
                         <ShowCourse key={course.id} course={course} /> // Provide a unique key
                     ))
                 }

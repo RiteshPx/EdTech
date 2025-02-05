@@ -279,11 +279,12 @@ exports.changePassword = async (req, res) => {
         }
 
         //extract the user from token
-        const token = req.session.token          // also fetch from "req.user" by middleware logic
+        // const token = req.session.token          // also fetch from "req.user" by middleware logic
 
-        const decoded = jwt.verify(token, process.env.JWT_SECRET);  // Decode the token using JWT_SECRET
+        // const decoded = jwt.verify(token, process.env.JWT_SECRET);  // Decode the token using JWT_SECRET
+        const {email} = req.user;  // also fetch from "req.user" by middleware logic
 
-        const userCheckPass = await User.findOne({ email: decoded.email })
+        const userCheckPass = await User.findOne({ email });
         console.log("current", userCheckPass);
 
         const isPasswordMatch = await bcrypt.compare(password, userCheckPass.password);
