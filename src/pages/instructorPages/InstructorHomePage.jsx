@@ -17,7 +17,7 @@ export default function InstructorHomePage() {
     'Dashboard',
     'Create Course',
     'Draft Courses',
-    'Chat',
+   
     'Profile',
     'Setting',
   ];
@@ -31,7 +31,7 @@ export default function InstructorHomePage() {
   }
 
   return (
-    <div className="flex h-screen ">
+    <div className="flex h-screen bg-secondary ">
       {/* Sidebar */}
       <div className="bg-primay rounded-3xl h-full w-1/6 p-4 sticky top-0 flex flex-col  items-center border-8  border-secondary">
         <img
@@ -65,7 +65,7 @@ export default function InstructorHomePage() {
         {selectedItem === 'Create Course' && <CreateCoursePage/>}
         {selectedItem === 'Draft Courses' && <DraftCourses user={user}/>}
        
-        <footer className="bg-secondary text-black py-2 rounded-b-md px-2 sticky bottom-0">
+        <footer className="bg-primay text-white py-2 rounded-b-md px-2 sticky bottom-0">
                     <p className="text-center font-semibold">
                         &copy; {new Date().getFullYear()} EdTech Platform. All rights reserved.
                     </p>

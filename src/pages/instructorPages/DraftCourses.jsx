@@ -8,19 +8,21 @@ export const DraftCourses = ({ user }) => {
   const [selectedCourse, setSelectedCourse] = useState(null);
   const Courses = user.enrollCourses;
 
- 
+
 
   return (
     <>
-      <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-20 bg-gray-200 p-7">
+      <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-20 min-h-screen bg-gray-200 p-7">
         {Courses.map((course, index) => (
           <>
             {
               !editModal ? (
                 course.status === "Draft" && (
-                  <ShowCourses course={course} setSelectedCourse={setSelectedCourse} setEditModal={setEditModal}></ShowCourses>
+                  <ShowCourses course={course}
+                    setSelectedCourse={setSelectedCourse}
+                    setEditModal={setEditModal}>
+                  </ShowCourses>
                 )
-
               ) : (<></>)
             }
 
@@ -28,12 +30,12 @@ export const DraftCourses = ({ user }) => {
 
         ))}
       </div>
-    
-     {editModal && 
-       <div className="flex justify-center   items-center h-full bg-white">
-     <AdditionDetails course={selectedCourse} />      
-     </div>}
-      
+
+      {editModal &&
+        <div className="flex justify-center   items-center h-full bg-white">
+          <AdditionDetails course={selectedCourse} />
+        </div>}
+
     </>
   )
 }

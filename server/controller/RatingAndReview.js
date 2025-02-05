@@ -42,7 +42,7 @@ exports.createRatingAndReview = async (req, res) => {
         );
 
         //res send
-        res.status(400).json({
+        res.status(200).json({
             success: true,
             message: "create rating review successflly",
             createdRating,

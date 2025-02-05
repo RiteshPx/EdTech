@@ -6,7 +6,7 @@ import MyCourses from '../../components/core/studentHomePage/MyCourses';
 
 const Dashboard = () => {
   return (
-    <div className="p-4 w-4/5">
+    <div className="p-4 w-full bg-white h-5/6">
       <div className="grid grid-cols-2 gap-4">
         <LearningTime />
         <MyActivity />

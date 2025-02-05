@@ -9,9 +9,9 @@ const Header = ({ user }) => {
     }
   };
   return (
-    <div className="flex justify-between items-center p-4 bg-secondary shadow-md rounded-t-lg">
-      <h1 className="text-2xl font-bold text-black">
-        <span className='text-primay'>Welcome back, </span>
+    <div className="flex justify-between items-center p-4 bg-primay shadow-md rounded-t-lg">
+      <h1 className="text-2xl font-bold text-white">
+        <span className='text-secondary'>Welcome back, </span>
         {user.firstName} {user.lastName} !
       </h1>
       <div className="flex items-center">

@@ -29,7 +29,7 @@ export default function StudentHomePage() {
   }
 
   return (
-    <div className="flex h-screen bg-gray-600">
+    <div className="flex h-screen bg-secondary">
       {/* Sidebar */}
       <div className="bg-primay rounded-3xl h-full w-1/6 p-4 sticky top-0 flex flex-col  items-center border-8  border-secondary">
         <img
@@ -62,7 +62,7 @@ export default function StudentHomePage() {
         {selectedItem === 'Profile' && <UserProfile user={user} />}
         {selectedItem === 'Setting' && <UserSetting user={user} handleSelection={handleSelection} />}
            {/* Footer */}
-           <footer className="bg-secondary text-black py-3 rounded-b-md px-4 sticky bottom-0">
+           <footer className="bg-primay text-white py-3 rounded-b-md px-4 sticky bottom-0">
                     <p className="text-center">
                         &copy; {new Date().getFullYear()} EdTech Platform. All rights reserved.
                     </p>
