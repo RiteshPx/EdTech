@@ -9,8 +9,8 @@ import { UserSetting } from '../samePagesOfRoles/UserSetting';
 
 export default function StudentHomePage() {
   const { user } = useContext(AuthContext);
-  console.log(user);
-
+    const [menuOpen, setMenuOpen] = useState(false); // State to handle menu visibility on mobile
+  
   const [selectedItem, setSelectedItem] = useState('Dashboard'); // Default selected item
   const menuItems = [
     'Dashboard',
@@ -31,7 +31,7 @@ export default function StudentHomePage() {
   return (
     <div className="flex h-screen bg-secondary">
       {/* Sidebar */}
-      <div className="bg-primay rounded-3xl h-full w-1/6 p-4 sticky top-0 flex flex-col  items-center border-8  border-secondary">
+      <div className={`bg-primay rounded-3xl h-full w-1/6 md:p-4 sticky top-0 min-w-32 flex flex-col items-center border-4 md:border-8 border-secondary ${menuOpen ? 'block' : 'hidden'} md:block`}>
         <img
           src={Logo}
           alt="Logo"
@@ -56,7 +56,7 @@ export default function StudentHomePage() {
   
       {/* Main Content */}
       <div className="flex-grow overflow-y-auto p-2 w-11/12">
-        <Header user={user} />
+      <Header user={user} setMenuOpen={setMenuOpen} menuOpen={menuOpen} />
         {selectedItem === 'Dashboard' && <Dashboard user={user} />}
         {selectedItem === 'Course' && <Courses user={user} />}
         {selectedItem === 'Profile' && <UserProfile user={user} />}

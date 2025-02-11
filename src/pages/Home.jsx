@@ -11,28 +11,27 @@ import home from '../assets/images/home.avif';
 import AuthContext from '../Context/AuthContext';
 
 export const Home = () => {
-    const { isAuthenticated, user,loading } = useContext(AuthContext);
+    const { isAuthenticated, user, loading } = useContext(AuthContext);
     const navigate = useNavigate();
 
     useEffect(() => {
-        console.log("home page useEffect",isAuthenticated)
+        console.log("home page useEffect", isAuthenticated)
         if (isAuthenticated) {
             return navigate(`/${user.accountType}`)
         }
-        // Place the navigate call inside useEffect
     }, [loading]);
-    return (
 
-        <div className=' bg-primay'>
-            <div className='relative w-11/12  min-h-screen  mx-auto flex flex-col  items-center max-w-maxContent text-white justify-center '>
+    return (
+        <div className='bg-primay'>
+            <div className='relative w-11/12 min-h-screen mx-auto flex flex-col items-center max-w-maxContent text-white justify-center'>
 
                 {/* section-1 */}
-                <div className="flex flex-col md:flex-row items-center justify-center w-full min-h-2.5 m-20  p-6 gap-8">
+                <div className="flex flex-col md:flex-row items-center justify-center w-full min-h-2.5 md:m-20 p-6 gap-8">
                     {/* Left Content */}
-                    <div className="flex flex-col justify-center items-center  p-8 rounded-lg  w-full md:w-1/2">
+                    <div className="flex flex-col justify-center items-center p-2 md:p-8 rounded-lg w-full md:w-1/2">
 
                         {/* Heading */}
-                        <div className="text-3xl text-center font-semibold mt-6 leading-tight">
+                        <div className="text-3xl text-center font-semibold  md:mt-6  leading-tight">
                             Empower your Future with <Highlight text="Coding Skills" />
                         </div>
 
@@ -53,7 +52,7 @@ export const Home = () => {
 
                         {/* Become an Instructor Button */}
                         <Link to={"/signup"}>
-                            <div className="group mt-8 mx-auto  bg-secondary text-textColor font-bold rounded-full transition-transform transform hover:scale-95">
+                            <div className="group mt-8 mx-auto bg-secondary text-textColor font-bold rounded-full transition-transform transform hover:scale-95">
                                 <div className="flex justify-center items-center gap-2 group-hover:bg-white py-2 px-4 text-center">
                                     <p>Become an Instructor</p>
                                     <FaArrowRightLong />
@@ -63,19 +62,19 @@ export const Home = () => {
                     </div>
 
                     {/* Right Content */}
-                    <div className="flex justify-center items-center  p-6 rounded-lg  w-full md:w-1/2">
+                    <div className="flex justify-center items-center p-6 rounded-lg w-full md:w-1/2">
                         <img
                             src={home}
-                            className="max-h-[800px] w-full max-w-80 "
+                            className="max-h-[800px] w-full max-w-80"
                             alt="homePhoto"
                         />
                     </div>
                 </div>
 
-
                 {/* video banner */}
-                <div className='shadow-blue-200 my-12 '>
+                <div className='shadow-blue-200 my-12 w-full'>
                     <video
+                        className="w-full"
                         muted
                         autoPlay
                         loop
@@ -84,7 +83,7 @@ export const Home = () => {
                 </div>
 
                 {/* code section 1.1 */}
-                <div>
+                <div className="w-full">
                     <CodeBlock
                         position={"lg:flex-row"}
                         heading={
@@ -94,35 +93,27 @@ export const Home = () => {
                             </div>
                         }
                         subheading={
-                            "our course is designed and taught by ndustry exprerts who have year of exprience"
+                            "our course is designed and taught by industry experts who have years of experience"
                         }
-                        btn1={
-                            {
-                                btntext: "try it yourself",
-                                linkto: "/signup",
-                                active: true
-                            }
-                        }
-                        btn2={
-                            {
-                                btntext: "Learn more",
-                                linkto: "/login",
-                                active: false
-                            }
-                        }
+                        btn1={{
+                            btntext: "try it yourself",
+                            linkto: "/signup",
+                            active: true
+                        }}
+                        btn2={{
+                            btntext: "Learn more",
+                            linkto: "/login",
+                            active: false
+                        }}
                         imagecode={imagecode}
                     />
-
                 </div>
-                {/* section-2 */}
 
-
-                {/* section-3 CourseCArd show*/}
+                {/* section-3 CourseCard show */}
                 <ShowCourses />
 
-
                 {/* section-4 */}
-                <div>
+                <div className="w-full">
                     <CodeBlock
                         position={"lg:flex-row-reverse"}
                         heading={
@@ -132,27 +123,22 @@ export const Home = () => {
                             </div>
                         }
                         subheading={
-                            "our course is designed and taught by ndustry exprerts who have year of exprience"
+                            "our course is designed and taught by industry experts who have years of experience"
                         }
-                        btn1={
-                            {
-                                btntext: "try it yourself",
-                                linkto: "/signup",
-                                active: true
-                            }
-                        }
-                        btn2={
-                            {
-                                btntext: "Learn more",
-                                linkto: "/login",
-                                active: false
-                            }
-                        }
+                        btn1={{
+                            btntext: "try it yourself",
+                            linkto: "/signup",
+                            active: true
+                        }}
+                        btn2={{
+                            btntext: "Learn more",
+                            linkto: "/login",
+                            active: false
+                        }}
                         imagecode={imagecode}
                     />
-
                 </div>
-            </div >
+            </div>
         </div>
     )
 }
