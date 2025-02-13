@@ -36,8 +36,8 @@ export const Navigation = () => {
                     <Link to='/showAllCourses'>Courses</Link>
                 </div>
                 <div className={`text-secondary flex-col md:flex-row gap-4 md:gap-7 ${menuOpen ? 'flex' : 'hidden'} md:flex`}>
-                    <NavLink className='border p-1 px-2' to='/login'>Login</NavLink>
-                    <NavLink className='border p-1 px-2' to='/signup'>Signup</NavLink>
+                    <NavLink className='border p-1 px-2 hover:bg-gray-200 hover:text-black' to='/login'>Login</NavLink>
+                    <NavLink className='border p-1 px-2 hover:bg-gray-200 hover:text-black' to='/signup'>Signup</NavLink>
                 </div>
             </div>
         </div>
