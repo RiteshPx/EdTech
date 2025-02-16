@@ -63,7 +63,7 @@ router.get('/showAllCategory',showAllCategorys)
 
 router.post('/createRating',auth,isStudent,createRatingAndReview);
 router.get('/getAllRatingAndReview',getAllRatingAndReview);
-router.get('/averageRatingAndReview',averageRatingAndReview)
+router.post('/averageRatingAndReview',averageRatingAndReview)
 
 
 module.exports = router;

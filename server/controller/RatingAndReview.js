@@ -1,6 +1,6 @@
 const Course = require('../models/Course');
 const RatingAndReview = require('../models/RatingAndReview');
-
+const mongoose = require('mongoose');
 //Create rating and review
 exports.createRatingAndReview = async (req, res) => {
     try {
@@ -64,7 +64,12 @@ exports.averageRatingAndReview = async (req, res) => {
     try {
         //fetch
         const { courseId } = req.body;
-
+        if(!courseId){
+            return res.status(400).json({   
+                success:false,
+                message:"courseId is required"
+            })  
+        }
         //calculate rating
         const result = await RatingAndReview.aggregate([
             {
@@ -79,21 +84,23 @@ exports.averageRatingAndReview = async (req, res) => {
                 }
             }
         ])
+        console.log(result);
          if(result.length>0){
-            res.status(200).json({
+           return res.status(200).json({
                 success:true,
                 AverageRating :result[0].averageRating,
             })
          }
         
-        res.status(200).json({
+        return res.status(200).json({
             success: true,
             AverageRating :0,
         })
 
     }
     catch (e) {
-        res.status(400).json({
+        console.error("Error in averageRatingAndReview:", e);
+        res.status(500).json({
             success: false,
             message: "something went wrong to provide rating",
         })

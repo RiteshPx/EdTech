@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { FaArrowRightLong } from "react-icons/fa6";
 import { Highlight } from '../components/core/homePage/Highlight';
 import { CTAButton } from "../components/core/homePage/Button";
-import Banner from "../assets/images/banner.webm";
+import Banner from "../assets/images/banner.mp4";
 import { CodeBlock } from '../components/core/homePage/CodeBlock';
 import imagecode from '../assets/images/codeImage.jpeg';
 import { ShowCourses } from '../components/core/homePage/ShowCourses';
@@ -15,7 +15,6 @@ export const Home = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        console.log("home page useEffect", isAuthenticated)
         if (isAuthenticated) {
             return navigate(`/${user.accountType}`)
         }
@@ -23,7 +22,7 @@ export const Home = () => {
 
     return (
         <div className='bg-primay'>
-            <div className='relative w-11/12 min-h-screen mx-auto flex flex-col items-center max-w-maxContent text-white justify-center'>
+            <div className='relative w-10/12 min-h-screen mx-auto flex flex-col items-center max-w-maxContent text-white justify-center'>
 
                 {/* section-1 */}
                 <div className="flex flex-col md:flex-row items-center justify-center w-full min-h-2.5 md:m-20 p-6 gap-8">
@@ -72,7 +71,7 @@ export const Home = () => {
                 </div>
 
                 {/* video banner */}
-                <div className='shadow-blue-200 my-12 w-full'>
+                <div className='shadow-blue-200 my-12 w-10/12'>
                     <video
                         className="w-full"
                         muted
@@ -83,8 +82,8 @@ export const Home = () => {
                 </div>
 
                 {/* code section 1.1 */}
-                <div className="w-full">
-                    <CodeBlock
+                <div className="w-10/12">
+                    {/* <CodeBlock
                         position={"lg:flex-row"}
                         heading={
                             <div>
@@ -106,38 +105,89 @@ export const Home = () => {
                             active: false
                         }}
                         imagecode={imagecode}
-                    />
+                    />*/}
+                    <CodeBlock 
+            position={"lg:flex-row-reverse"}
+            heading={
+              <div className="text-4xl font-semibold">
+                Start
+                <Highlight text={" Coding in seconds"} />
+              </div>
+            }
+            subheading={
+              <p >
+                Go ahead, give it a try. Our hands-on learning environment means
+                you'll be writing real code from your very first lesson.
+              </p>
+            }
+            ctabtn1={{
+              btnText: "Continue Lesson",
+              linkto: "/signup",
+              active: true,
+            }}
+            ctabtn2={{
+              btnText: "Learn More",
+              linkto: "/login",
+              active: false,
+            }}
+            codeblock={`<!DOCTYPE html>
+<html>
+head><title>Example</title><linkrel="stylesheet"href="styles.css">
+/head>
+body>
+h1><ahref="/">Header</a>
+/h1>
+nav><ahref="one/">One</a><ahref="two/">Two</a><ahref="three/">Three</a>
+/nav>`}
+            codeColor={"text-[#ff4500]"}
+            backgroundGradient={<div className="codeblock2 absolute"></div>}
+          />
                 </div>
 
                 {/* section-3 CourseCard show */}
                 <ShowCourses />
 
                 {/* section-4 */}
-                <div className="w-full">
-                    <CodeBlock
-                        position={"lg:flex-row-reverse"}
-                        heading={
-                            <div>
-                                Unlock your
-                                <Highlight text="coding potential" />
-                            </div>
-                        }
-                        subheading={
-                            "our course is designed and taught by industry experts who have years of experience"
-                        }
-                        btn1={{
-                            btntext: "try it yourself",
-                            linkto: "/signup",
-                            active: true
-                        }}
-                        btn2={{
-                            btntext: "Learn more",
-                            linkto: "/login",
-                            active: false
-                        }}
-                        imagecode={imagecode}
-                    />
-                </div>
+                <div className="w-10/12">
+                <CodeBlock 
+            position={"lg:flex-row"}
+            heading={
+              <div className="text-4xl font-semibold">
+                Start
+                <Highlight text={" Coding in seconds"} />
+              </div>
+            }
+            subheading={
+              <p >
+                Go ahead, give it a try. Our hands-on learning environment means
+                you'll be writing real code from your very first lesson.
+              </p>
+            }
+            ctabtn1={{
+              btnText: "Continue Lesson",
+              linkto: "/signup",
+              active: true,
+            }}
+            ctabtn2={{
+              btnText: "Learn More",
+              linkto: "/login",
+              active: false,
+            }}
+            codeblock={`<!DOCTYPE html>
+<html>
+head><title>Example</title><linkrel="stylesheet"href="styles.css">
+/head>
+body>
+h1><ahref="/">Header</a>
+/h1>
+nav><ahref="one/">One</a><ahref="two/">Two</a><ahref="three/">Three</a>
+/nav>`}
+            codeColor={"text-[#ff4500]"}
+            backgroundGradient={<div className="codeblock2 absolute"></div>}
+          />
+                    </div>
+
+             
             </div>
         </div>
     )

@@ -55,7 +55,7 @@ export const getAllRatingAndReviewApi= async()=>{
     return axiosInstance.get('/course/getAllRatingAndReview');
 }
 //averageRatingAndReview
-export const averageRatingAndReviewApi= async()=>{
-    return axiosInstance.get('/course/averageRatingAndReview');
+export const averageRatingAndReviewApi= async(payload)=>{
+    return axiosInstance.post('/course/averageRatingAndReview',payload);
 }
 

@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { OtpPage } from '../../components/core/OTP/OtpPage';
 import { toast } from 'react-toastify';
 import { sendOtpApi } from '../../api/userApi';
+import img2 from '../../assets/images/signup.jpg';
+
 const SignupForm = () => {
     const [formData, setFormData] = useState({
         email: '',
@@ -10,12 +12,13 @@ const SignupForm = () => {
         password: '',
         confirmPassword: '',
         accountType: 'Student', // Default value
-        contactNumber: '',
+        contactNumber: '+91 ',
         otp: '',
     });
 
     const [otpPageVisible, setOtpPageVisible] = useState(0);
     const [loading, setLoading] = useState(false);
+
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData({ ...formData, [name]: value });
@@ -45,23 +48,27 @@ const SignupForm = () => {
             setLoading(false)
         }
     }
+
     return (
-        <div className='bg-primay h-full '>
-            {loading ? (<div className="h-screen flex items-center justify-center">
-                <span className="loader"></span>
-            </div>
-            ) : (<>
-                {otpPageVisible ?
-                    (<OtpPage formData={formData} setFormData={setFormData} handleChange={handleChange} />)
-                    : (
-                        <div className="min-h-screen flex items-center justify-center  ">
-                            <div className=" bg-gray-100 p-6 rounded-lg shadow-lg w-full max-w-md">
+        <div className='bg-primary min-h-screen flex items-center justify-center'>
+            {loading ? (
+                <div className="h-screen flex items-center justify-center">
+                    <span className="loader"></span>
+                </div>
+            ) : (
+                <>
+                    {otpPageVisible ? (
+                        <OtpPage formData={formData} setFormData={setFormData} handleChange={handleChange} />
+                    ) : (
+                        <div className="w-full max-w-4xl bg-gray-100 p-6 rounded-lg shadow-lg flex flex-col md:flex-row">
+                            <div className='w-full md:w-1/2 h-64 md:h-auto hidden md:block'>
+                                <img src={img2} alt="signup" className="w-full h-full object-cover rounded-l-lg" />
+                            </div>
+                            <div className='w-full md:w-1/2 p-4'>
                                 <h2 className="text-2xl font-bold mb-4 text-center text-gray-800">Sign Up</h2>
                                 <form onSubmit={handleSubmitDetails} className="space-y-4">
-
-                                    {/* First Name */}
-                                    <div className='flex gap-2'>
-                                        <div>
+                                    <div className='flex flex-col md:flex-row gap-2'>
+                                        <div className='w-full'>
                                             <label htmlFor="firstName" className="block text-sm font-medium text-gray-700">
                                                 First Name
                                             </label>
@@ -76,9 +83,7 @@ const SignupForm = () => {
                                                 required
                                             />
                                         </div>
-
-                                        {/* Last Name */}
-                                        <div>
+                                        <div className='w-full'>
                                             <label htmlFor="lastName" className="block text-sm font-medium text-gray-700">
                                                 Last Name
                                             </label>
@@ -94,7 +99,6 @@ const SignupForm = () => {
                                             />
                                         </div>
                                     </div>
-                                    {/* Email */}
                                     <div>
                                         <label htmlFor="email" className="block text-sm font-medium text-gray-700">
                                             Email
@@ -110,10 +114,8 @@ const SignupForm = () => {
                                             required
                                         />
                                     </div>
-
-                                    {/* Password */}
-                                    <div className='flex gap-2'>
-                                        <div>
+                                    <div className='flex flex-col md:flex-row gap-2'>
+                                        <div className='w-full'>
                                             <label htmlFor="password" className="block text-sm font-medium text-gray-700">
                                                 Password
                                             </label>
@@ -128,9 +130,7 @@ const SignupForm = () => {
                                                 required
                                             />
                                         </div>
-
-                                        {/* Confirm Password */}
-                                        <div>
+                                        <div className='w-full'>
                                             <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700">
                                                 Confirm Password
                                             </label>
@@ -146,43 +146,25 @@ const SignupForm = () => {
                                             />
                                         </div>
                                     </div>
-
-                                    {/* Account Type */}
-                                    <div className='flex justify-between align-middle'>
+                                    <div className='flex flex-col md:flex-row gap-2 items-center'>
                                         <label htmlFor="accountType" className="block text-sm font-medium text-gray-700">
                                             Account Type
                                         </label>
-                                        <select
-                                            name="accountType"
-                                            id="accountType"
-                                            value={formData.accountType}
-                                            onChange={handleChange}
-                                            className="mt-1 block w-half p-2 border border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
-                                            required
-                                        >
-                                            <option value="Student">Student</option>
-                                            <option value="Instructor">Instructor</option>
-                                            <option value="Admin">Admin</option>
-                                        </select>
+                                        <div className="flex gap-2 bg-gray-200 p-2 text-sm rounded-lg">
+                                            <div
+                                                className={`cursor-pointer px-2 p-1 border rounded-lg ${formData.accountType === 'Student' ? 'bg-indigo-500 text-white' : 'bg-white text-gray-700'}`}
+                                                onClick={() => setFormData({ ...formData, accountType: 'Student' })}
+                                            >
+                                                Student
+                                            </div>
+                                            <div
+                                                className={`cursor-pointer px-2 p-1 border rounded-lg ${formData.accountType === 'Instructor' ? 'bg-indigo-500 text-white' : 'bg-white text-gray-700'}`}
+                                                onClick={() => setFormData({ ...formData, accountType: 'Instructor' })}
+                                            >
+                                                Instructor
+                                            </div>
+                                        </div>
                                     </div>
-
-                                    {/* Contact Number */}
-                                    <div>
-                                        <label htmlFor="contactNumber" className="block text-sm font-medium text-gray-700">
-                                            Contact Number
-                                        </label>
-                                        <input
-                                            type="tel"
-                                            name="contactNumber"
-                                            id="contactNumber"
-                                            value={formData.contactNumber}
-                                            onChange={handleChange}
-                                            className="mt-1 block w-full p-2 border border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
-                                            placeholder="Enter your contact number"
-                                        />
-                                    </div>
-
-                                    {/* Submit Button */}
                                     <div>
                                         <button
                                             type="submit"
@@ -192,15 +174,12 @@ const SignupForm = () => {
                                         </button>
                                     </div>
                                 </form>
-                            </div >
-                        </div >
-                    )
-                }
-
-            </>
+                            </div>
+                        </div>
+                    )}
+                </>
             )}
-        </div >
-
+        </div>
     );
 };
 

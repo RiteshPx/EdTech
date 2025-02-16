@@ -155,7 +155,14 @@ exports.getCourseDetails = async (req, res) => {
                         path: "subSection",
                     }
                 }
-            ).populate('ratingAndReviews')
+            ).populate(
+                {
+                    path:'ratingAndReviews',
+                    populate:{
+                        path:'user',
+                 }
+                }
+            )
             .populate("category")
             .exec();
 
@@ -194,7 +201,7 @@ exports.publishCourse = async (req, res) => {
                 Message: "Enable to fetch CourseId",
             })
         }
-        const course = await Course.findById(courseId )
+        const course = await Course.findById(courseId)
             .populate(
                 {
                     path: 'courseContent',
@@ -210,13 +217,13 @@ exports.publishCourse = async (req, res) => {
                 message: "Enable to fetch Course",
             })
         }
-        if(course.courseContent.length === 0 || course.courseContent?.subSection?.length===0){
+        if (course.courseContent.length === 0 || course.courseContent?.subSection?.length === 0) {
             return res.status(400).json({
                 success: false,
                 message: "Add complete Details of Course",
             })
         }
-        console.log("ken",course.courseContent.length)
+        console.log("ken", course.courseContent.length)
         const coursePublish = await Course.findByIdAndUpdate(courseId,
             { status: 'Published' }, // Update the 'age' field
             { new: true })

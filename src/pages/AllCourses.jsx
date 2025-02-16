@@ -9,6 +9,7 @@ const AllCourses = () => {
     try {
         async function fetchData() {
             const response = await showAllCourse();
+            console.log(response.data.data);
             setCourses(response.data.data);
         }
         useEffect(() => {

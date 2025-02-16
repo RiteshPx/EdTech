@@ -26,7 +26,7 @@ export const ShowCourses = () => {
     }
 
     return (
-        <div className='bg-purple-300 text-black py-10 px-5 md:px-20 h-full'>
+        <div className='bg-purple-500 bg-gradient-to-r from-blue-500 to-purple-500 text-black py-10 px-5 md:px-20 h-full'>
             <div className='text-2xl text-center font-semibold mt-3'>
                 <div>Unlock the <span>power of code </span> </div>
                 <p className='text-xl mt-2'>Learning to build anything you can imagine</p>

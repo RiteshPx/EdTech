@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { toast } from 'react-toastify';
 
 export default function ContactForm() {
   const [formData, setFormData] = useState({
@@ -20,28 +21,9 @@ export default function ContactForm() {
 
   // Handle form submission
   const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    // Example: Sending form data to a backend API
-    try {
-      const response = await fetch('http://localhost:4000/api/contact', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
-      });
-
-      if (response.ok) {
-        setMessage('Your query has been submitted successfully!');
-        setFormData({ name: '', email: '', query: '' });
-      } else {
-        setMessage('Something went wrong. Please try again.');
-      }
-    } catch (error) {
-      setMessage('Error: Unable to submit your query.');
-      console.error(error);
-    }
+      e.preventDefault();
+    toast.success('Form submitted successfully!');
+    setFormData({...formData, name: '', email: '', query: ''}); 
   };
 
   return (
